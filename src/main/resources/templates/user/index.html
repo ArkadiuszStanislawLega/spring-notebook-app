@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="pl">
+<head>
+    <meta charset="utf-8"/>
+    <title>Aktorzy | MovieApp</title>
+</head>
+<body>
+<div align="center">
+    <h1>Lista Aktorów</h1>
+    <a href="/user/sign-up">Nowy Użytkownik</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nazwa</th>
+            <th>Adres e-mail</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${listUsers}">
+            <td th:text="${user.id}">Id</td>
+            <td th:text="${user.name}">Imię</td>
+            <td th:text="${user.email}">Nazwisko</td>
+            <td>
+                <a th:href="@{'/user/edit/' + ${user.id}}">Edytuj</a>
+
+                <a th:href="@{'/user/delete/' + ${user.id}}">Usuń</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
