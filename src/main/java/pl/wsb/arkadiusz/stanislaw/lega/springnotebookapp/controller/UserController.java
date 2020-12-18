@@ -62,8 +62,10 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
+
         modelAndView.addObject("userName", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+
         modelAndView.setViewName("admin/home");
         return modelAndView;
     }
