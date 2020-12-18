@@ -1,5 +1,7 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
@@ -63,6 +65,7 @@ public class JobsList {
         return owner;
     }
 
+    @Autowired(required=true)
     public void setOwner(Set<User> owner) {
         this.owner = owner;
     }

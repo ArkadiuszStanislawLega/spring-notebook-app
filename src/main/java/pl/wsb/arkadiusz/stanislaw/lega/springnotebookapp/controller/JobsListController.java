@@ -21,8 +21,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 @Controller
-@RequestMapping("/jobs-lists")
+@RequestMapping("/jobsList")
 public class JobsListController {
+
     @Autowired
     private JobsListService jobsListService;
 
@@ -62,7 +63,7 @@ public class JobsListController {
         User user = userService.findUserByUserName(auth.getName());
 
         modelAndView.addObject("userName", "Użytkownik " + user.getUserName() + " posiada ileś tam list. ");
-        modelAndView.setViewName("jobsLists/home");
+        modelAndView.setViewName("jobsList/home");
         return modelAndView;
     }
 }

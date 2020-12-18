@@ -6,5 +6,5 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import java.util.List;
 
 public interface JobsListRepository extends JpaRepository<JobsList, Integer> {
-    List<JobsList> findListsByUserName(String username);
+    List<JobsList> findListsByOwner(String owner);
 }
