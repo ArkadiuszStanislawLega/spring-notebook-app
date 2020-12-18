@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.JobsListRepository;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.UserRepository;
 
 import java.util.List;
 
