@@ -24,12 +24,22 @@ public class UserController {
         return new ModelAndView("login");
     }
 
+    @GetMapping(value="/user/profile")
+    public ModelAndView profile(){
+        ModelAndView modelAndView = new ModelAndView("user/profile");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        modelAndView.addObject("id", user.getId());
+        modelAndView.addObject("name", user.getName());
+        modelAndView.addObject("email", user.getEmail());
+        return modelAndView;
+    }
+
 
     @GetMapping(value="/registration")
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
-        modelAndView.addObject("user", user);
         modelAndView.setViewName("registration");
         return modelAndView;
     }
