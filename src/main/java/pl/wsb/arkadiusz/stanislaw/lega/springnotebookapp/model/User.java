@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -50,12 +51,16 @@ public class User {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "users_lists", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name = "users_lists_id"))
+    @JoinTable(name = "users_lists",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "users_lists_id"))
     private Set<JobsList> jobsList;
 
     public Integer getId() {
@@ -120,5 +125,17 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addJobsList(JobsList jobsList){
+        this.jobsList.add(jobsList);
+    }
+
+    public void removeJobsList(JobsList jobsList){
+        this.jobsList.remove(jobsList);
+    }
+
+    public Set<JobsList>getJobsList() {
+        return this.jobsList;
     }
 }

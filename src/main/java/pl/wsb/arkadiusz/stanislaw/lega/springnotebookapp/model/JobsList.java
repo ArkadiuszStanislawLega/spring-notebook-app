@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,9 +18,9 @@ public class JobsList {
     @Column(name = "users_lists_id")
     private Integer id;
 
-    @Column(name = "user_name")
+    @Column(name = "name")
     @NotEmpty(message = "*Please provide a jobs list name")
-    private String listName;
+    private String name;
 
     @Column(name = "created")
     private Date created;
@@ -37,12 +39,12 @@ public class JobsList {
         this.id = id;
     }
 
-    public String getListName() {
-        return listName;
+    public String getName() {
+        return name;
     }
 
-    public void setListName(String listName) {
-        this.listName = listName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getCreated() {
@@ -69,4 +71,17 @@ public class JobsList {
     public void setOwner(Set<User> owner) {
         this.owner = owner;
     }
+
+    public void addOwner(User user){
+        this.owner.add(user);
+    }
+
+    public void removeUser(User user){
+        this.owner.remove(user);
+    }
+
+    public JobsList() {
+        this.owner = new HashSet<>();
+    }
+
 }

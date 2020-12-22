@@ -1,10 +1,10 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 
 import java.util.List;
 
-public interface JobsListRepository extends JpaRepository<JobsList, Integer> {
+public interface JobsListRepository extends CrudRepository<JobsList, Integer> {
     List<JobsList> findListsByOwner(String owner);
 }

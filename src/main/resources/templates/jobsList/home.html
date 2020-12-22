@@ -10,7 +10,29 @@
 <div align="center">
     <h1>Lista list użytkownika</h1>
     <div class="panel-heading">
-
+        <div class="panel-heading">
+            <span th:utext="${information}"></span>
+        </div>
+        <br/><br/>
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nazwa</th>
+                    <th>Utworzono</th>
+                    <th>Edytowano</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="jobList : ${jobsLists}">
+                    <td th:text="${jobList.id}">Id</td>
+                    <td th:text="${jobList.name}">Nazwa</td>
+                    <td th:text="${jobList.created}">Utworzono</td>
+                    <td th:text="${jobList.edited}">Edytowano</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>
