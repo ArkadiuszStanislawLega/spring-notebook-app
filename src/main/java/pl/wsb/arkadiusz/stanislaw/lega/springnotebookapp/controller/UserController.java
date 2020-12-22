@@ -19,11 +19,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value={"/", "/login"})
+    @GetMapping(value="/login")
     public ModelAndView login(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
-        return modelAndView;
+        return new ModelAndView("login");
     }
 
 
