@@ -1,39 +1,48 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main_layout.html}"
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       lang="pl">
-<head>
-    <meta charset="utf-8"/>
-    <title>Aktorzy | MovieApp</title>
-</head>
-<body>
-<div align="center">
-    <h1>Lista list użytkownika</h1>
-    <div class="panel-heading">
-        <div class="panel-heading">
-            <span th:utext="${information}"></span>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Aktorzy | MovieApp</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div align="center">
+                <h1>Lista list użytkownika</h1>
+                <div class="panel-heading">
+                    <div class="panel-heading">
+                        <span th:utext="${information}"></span>
+                    </div>
+                    <br/><br/>
+                    <table border="1" cellpadding="10">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nazwa</th>
+                                <th>Utworzono</th>
+                                <th>Edytowano</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="jobList : ${jobsLists}">
+                                <td th:text="${jobList.id}">Id</td>
+                                <td th:text="${jobList.name}"></td>
+                                <td th:text="${jobList.created}">Utworzono</td>
+                                <td th:text="${jobList.edited}">Edytowano</td>
+                                <td>
+                                <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/edit/' + ${jobList.id}}">
+                                    Edytuj
+                                </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <br/><br/>
-        <table border="1" cellpadding="10">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nazwa</th>
-                    <th>Utworzono</th>
-                    <th>Edytowano</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="jobList : ${jobsLists}">
-                    <td th:text="${jobList.id}">Id</td>
-                    <td th:text="${jobList.name}">Nazwa</td>
-                    <td th:text="${jobList.created}">Utworzono</td>
-                    <td th:text="${jobList.edited}">Edytowano</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-</body>
+    </body>
 </html>

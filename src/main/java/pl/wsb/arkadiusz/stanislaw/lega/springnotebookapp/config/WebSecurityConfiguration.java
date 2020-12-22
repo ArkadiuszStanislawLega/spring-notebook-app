@@ -40,7 +40,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                    .antMatchers(homePage, registrationPage, loginPage).permitAll()
+                    .antMatchers( homePage, registrationPage, loginPage).permitAll()
                     .antMatchers("/admin/**", "/jobsList/**").hasAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()

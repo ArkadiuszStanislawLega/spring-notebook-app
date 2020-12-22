@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Java WSB Course Application">
+    <title>Java WSB Course | MovieApp</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css"  th:href="@{/webjars/bootstrap/4.5.3/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav th:replace="layouts/navigation :: navigation"></nav>
+
+<!-- Page Content -->
+<div class="container">
+    <div layout:fragment="content"></div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript"
+        th:src="@{/webjars/jquery/3.5.1/jquery.min.js/}"></script>
+<script type="text/javascript"
+        th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.min.js}"></script>
+</body>
+</html>
