@@ -33,6 +33,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        String ROLE_USER = "USER";
+        String ROLE_ADMIN = "ADMIN";
         String loginPage = "/login";
         String logoutPage = "/logout";
         String homePage = "/";
@@ -50,7 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                                             homePage,
                                             registrationPage,
                                             loginPage).permitAll()
-                    .antMatchers( "/admin/**", "/jobsList/**").hasAuthority("ADMIN")
+                    .antMatchers( "/admin/**", "/jobsList/**").hasAuthority(ROLE_ADMIN)
                     .anyRequest()
                     .authenticated()
                     .and()

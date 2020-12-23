@@ -30,10 +30,6 @@ public class JobsListController {
     public String create(Model model){
         JobsList jobsList = new JobsList();
         model.addAttribute("jobsList", jobsList);
-//        ModelAndView modelAndView = new ModelAndView();
-//        JobsList jobsList = new JobsList();
-//        modelAndView.addObject("jobsList", jobsList);
-//        modelAndView.setViewName("jobsList/create");
         return  "jobsList/new";
     }
 

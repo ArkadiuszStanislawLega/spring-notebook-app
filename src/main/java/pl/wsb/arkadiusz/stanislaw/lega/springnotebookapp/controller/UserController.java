@@ -52,10 +52,10 @@ public class UserController {
         if (userExists != null) {
             bindingResult
                     .rejectValue("userName", "error.user",
-                            "There is already a user registered with the user name provided");
+                            "Użytkownik o podanej nazwie już istnieje. Zmień nazwe i spróbuj jeszcze raz.");
         }
         userService.saveUser(user);
-        modelAndView.addObject("successMessage", "User has been registered successfully");
+        modelAndView.addObject("successMessage", "Zostałeś poprawnie zarejestrowany.");
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
@@ -67,7 +67,7 @@ public class UserController {
         User user = userService.findUserByUserName(auth.getName());
 
         modelAndView.addObject("userName", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+        modelAndView.addObject("adminMessage","Zawartość jest dostępna dla użytkowników z uprawnieniami administratora.");
 
         modelAndView.setViewName("admin/home");
         return modelAndView;
