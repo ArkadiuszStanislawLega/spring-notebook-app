@@ -11,29 +11,26 @@
     </head>
 
     <body>
-        <div layout:fragment="content" align="center">
+        <div layout:fragment="content" align="center" >
+            <h1 class="text-center mt-3">Zaloguj się</h1>
 
-            <div th:if="${param.error}">
-                Invalid username and password.
-            </div>
             <div th:if="${param.logout}">
-                You have been logged out.
+                Zostałeś wylogowany.
             </div>
+
             <form th:action="@{/login}" method="POST">
                 <div>
-                    <label> User Name :
-                        <input type="text" id="user_name" name="user_name" placeholder="User Name"
-                               class="form-control"/>
+                    <label>
+                        <input type="text" id="user_name" name="user_name" placeholder="Nazwa użytkownika" class="form-control"/>
                     </label>
                 </div>
                 <div>
-                    <label> Password:
-                        <input type="password" th:placeholder="Password" id="password" name="password"
-                               class="form-control"/>
+                    <label>
+                        <input type="password" th:placeholder="Hasło" id="password" name="password" class="form-control"/>
                     </label>
                 </div>
                 <div align="center" th:if="${param.error}">
-                    <p style="font-size: 20; color: #FF1C19;">User Name or Password invalid, please verify</p>
+                    <p style="font-size: 20; color: #FF1C19;">Nazwa użytkownika lub hasło jest nieprawidłowe.</p>
                 </div>
                 <div>
                     <button class="btn btn-sm btn-secondary" name="Submit" value="Login" type="Submit" th:text="Zaloguj"/>
