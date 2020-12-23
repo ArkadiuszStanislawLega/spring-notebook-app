@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 
 import javax.validation.Valid;
 
@@ -21,14 +22,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value="/login")
-    public ModelAndView login(){
-        return new ModelAndView("login");
+    @GetMapping(value = url.LOGIN_PAGE)
+    public ModelAndView login() {
+        return new ModelAndView(url.LOGIN_PAGE);
     }
 
-    @GetMapping(value="/user/profile")
-    public ModelAndView profile(){
-        ModelAndView modelAndView = new ModelAndView("user/profile");
+    @GetMapping(value = url.USER_PROFILE_PAGE)
+    public ModelAndView profile() {
+        ModelAndView modelAndView = new ModelAndView(url.USER_PROFILE_PAGE);
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
         modelAndView.addObject("id", user.getId());
@@ -38,23 +40,22 @@ public class UserController {
     }
 
 
-    @RequestMapping(value="/registration", method = RequestMethod.GET)
-    public ModelAndView registration(){
-        ModelAndView modelAndView = new ModelAndView("registration");
+    @RequestMapping(value = url.REGISTRATION_PAGE, method = RequestMethod.GET)
+    public ModelAndView registration() {
+        ModelAndView modelAndView = new ModelAndView(url.REGISTRATION_PAGE);
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
 
-    @PostMapping(value = "/registration")
+    @PostMapping(value = url.REGISTRATION_PAGE)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("registration");
+        ModelAndView modelAndView = new ModelAndView(url.REGISTRATION_PAGE);
         User userExists = userService.findUserByUserName(user.getUserName());
         if (userExists != null) {
             bindingResult
                     .rejectValue("userName", "error.user",
                             "Użytkownik o podanej nazwie już istnieje. Zmień nazwe i spróbuj jeszcze raz.");
-        }
-        else {
+        } else {
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "Zostałeś poprawnie zarejestrowany.");
             modelAndView.addObject("user", new User());
