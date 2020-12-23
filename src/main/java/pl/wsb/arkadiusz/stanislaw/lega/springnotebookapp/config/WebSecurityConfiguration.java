@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.MyUserDetailsService;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.Roles;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 
 @Configuration
 @EnableWebSecurity
@@ -33,12 +34,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        String ROLE_USER = "USER";
-        String ROLE_ADMIN = "ADMIN";
-        String loginPage = "/login";
-        String logoutPage = "/logout";
-        String homePage = "/";
-        String registrationPage = "/registration";
 
         http.
                 authorizeRequests()
@@ -49,31 +44,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                                             "/js/**",
                                             "/images/**",
                                             "/templates/**",
-                                            homePage,
-                                            registrationPage,
-                                            loginPage).permitAll()
-                    .antMatchers( "/admin/**", "/jobsList/**").hasAuthority(ROLE_ADMIN)
+                                            url.HOME_PAGE,
+                                            url.REGISTRATION_PAGE,
+                                            url.LOGIN_PAGE).permitAll()
+                    .antMatchers( "/admin/**", "/jobsList/**").hasAuthority(Roles.ROLE_ADMIN)
                     .anyRequest()
                     .authenticated()
                     .and()
                 .csrf().disable()
                     .formLogin()
-                    .loginPage(loginPage)
+                    .loginPage(url.LOGIN_PAGE)
                     .failureUrl("/login?error=true")
-                    .defaultSuccessUrl(homePage, true)
+                    .defaultSuccessUrl(url.HOME_PAGE, true)
                     .usernameParameter("user_name")
                     .passwordParameter("password")
                     .and()
                 .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
-                    .logoutSuccessUrl(homePage).and().exceptionHandling();
+                    .logoutRequestMatcher(new AntPathRequestMatcher(url.LOGOUT_PAGE))
+                    .logoutSuccessUrl(url.HOME_PAGE).and().exceptionHandling();
     }
-//
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web
-//                .ignoring()
-//                .antMatchers("/resources/**", "/templates/**", "/static/**", "/css/**", "/js/**", "/images/**");
-//    }
-
 }

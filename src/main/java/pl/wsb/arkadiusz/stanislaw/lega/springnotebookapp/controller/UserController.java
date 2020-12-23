@@ -54,24 +54,11 @@ public class UserController {
                     .rejectValue("userName", "error.user",
                             "Użytkownik o podanej nazwie już istnieje. Zmień nazwe i spróbuj jeszcze raz.");
         }
-        userService.saveUser(user);
-        modelAndView.addObject("successMessage", "Zostałeś poprawnie zarejestrowany.");
-        modelAndView.addObject("user", new User());
+        else {
+            userService.saveUser(user);
+            modelAndView.addObject("successMessage", "Zostałeś poprawnie zarejestrowany.");
+            modelAndView.addObject("user", new User());
+        }
         return modelAndView;
     }
-
-    @GetMapping(value="/admin/home")
-    public ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-
-        modelAndView.addObject("userName", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage","Zawartość jest dostępna dla użytkowników z uprawnieniami administratora.");
-
-        modelAndView.setViewName("admin/home");
-        return modelAndView;
-    }
-
-
 }
