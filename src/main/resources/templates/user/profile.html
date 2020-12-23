@@ -24,6 +24,15 @@
                                 <span th:utext="${email}"></span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <span >Typ użytkownika:</span>
+                                    <tr th:each="role : ${roles}">
+                                        <td th:text="${role.role}"></td>
+                                    </tr>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

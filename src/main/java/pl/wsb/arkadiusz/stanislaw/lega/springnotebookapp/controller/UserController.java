@@ -36,6 +36,7 @@ public class UserController {
         modelAndView.addObject("id", user.getId());
         modelAndView.addObject("name", user.getName());
         modelAndView.addObject("email", user.getEmail());
+        modelAndView.addObject("roles", user.getRoles());
         return modelAndView;
     }
 
