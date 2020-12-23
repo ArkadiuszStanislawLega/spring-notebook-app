@@ -40,16 +40,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                    .antMatchers( homePage, registrationPage, loginPage).permitAll()
-                    .antMatchers("/admin/**", "/jobsList/**").hasAuthority("ADMIN")
+                    .antMatchers("/resources/**",
+                                            "/static/**",
+                                            "/webjars/**",
+                                            "/css/**",
+                                            "/js/**",
+                                            "/images/**",
+                                            "/templates/**",
+                                            homePage,
+                                            registrationPage,
+                                            loginPage).permitAll()
+                    .antMatchers( "/admin/**", "/jobsList/**").hasAuthority("ADMIN")
                     .anyRequest()
                     .authenticated()
                     .and()
                 .csrf().disable()
                     .formLogin()
                     .loginPage(loginPage)
-                    .failureUrl(homePage)
-                    .defaultSuccessUrl(homePage)
+                    .failureUrl("/login?error=true")
+                    .defaultSuccessUrl(homePage, true)
                     .usernameParameter("user_name")
                     .passwordParameter("password")
                     .and()
@@ -57,12 +66,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
                     .logoutSuccessUrl(homePage).and().exceptionHandling();
     }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**", "/templates/**", "/static/**", "/css/**", "/js/**", "/images/**");
-    }
+//
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web
+//                .ignoring()
+//                .antMatchers("/resources/**", "/templates/**", "/static/**", "/css/**", "/js/**", "/images/**");
+//    }
 
 }

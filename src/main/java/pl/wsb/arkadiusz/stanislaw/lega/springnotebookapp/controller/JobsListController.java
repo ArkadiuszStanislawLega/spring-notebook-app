@@ -40,7 +40,6 @@ public class JobsListController {
     @PostMapping(value = "/save")
     public String saveJobsList(@ModelAttribute("jobsList") JobsList jobsList){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         User user = userService.findUserByUserName(auth.getName());
         user.addJobsList(jobsList);
         jobsList.addOwner(user);
