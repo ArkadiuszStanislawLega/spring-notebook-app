@@ -1,6 +1,7 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -22,10 +23,14 @@ public class JobsList {
     @NotEmpty(message = "*Please provide a jobs list name")
     private String name;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
     private Date created;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "edited")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
     private Date edited;
 
     @ManyToMany
@@ -84,4 +89,11 @@ public class JobsList {
         this.owner = new HashSet<>();
     }
 
+
+    public JobsList(Integer id, @NotEmpty(message = "*Please provide a jobs list name") String name, Date created, Date edited) {
+        this.id = id;
+        this.name = name;
+        this.created = created;
+        this.edited = edited;
+    }
 }

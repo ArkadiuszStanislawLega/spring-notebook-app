@@ -28,6 +28,7 @@ public class JobsListService {
     }
 
     public JobsList saveJobsList(JobsList jobsList){
+        System.out.println("SERVICE!!!!!!!! ************ Edited " + jobsList.getEdited() + ", Created: " + jobsList.getCreated() + " ****************** !!!!!!!");
         return jobsListRepository.save(jobsList);
     }
 

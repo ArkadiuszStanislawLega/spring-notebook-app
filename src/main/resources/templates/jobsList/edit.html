@@ -1,45 +1,40 @@
-<!DOCTYPE html>
 <html xmlns:layout="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layouts/main_layout.html}"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      lang="pl">
 <head>
     <meta charset="UTF-8">
     <title>jobslist - edit</title>
 </head>
-    <body>
-        <div layout:fragment="content">
-            <div align="center">
-                <h1>Aktualizuj dane listy</h1>
-                <br/>
-                <form action="#"   th:action="@{/jobsList/save}" th:object="${jobsList}" ethod="post">
-                    <table border="0" cellpadding="10">
-                        <tr>
-                            <td>Id:</td>
-                            <td>
-                                <input type="text" th:field="*{id}" readonly="readonly" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Nazwa:</td>
-                            <td>
-                                <input type="text" th:field="*{name}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Utworzono:</td>
-                            <td><input type="text" th:field="*{created}" /></td>
-                        </tr>
-                        <tr>
-                            <td>Edytowano:</td>
-                            <td><input type="text" th:field="*{edited}" /></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><button type="submit">Zapisz</button> </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </div>
-    </body>
+<body>
+<div layout:fragment="content">
+    <div align="center">
+        <h1>Aktualizuj dane listy</h1>
+        <br/>
+        <form action="#" th:action="@{/jobsList/save}" th:object="${jobsList}" ethod="post">
+            <table border="0" cellpadding="10">
+                <tr>
+                    <td>Id:</td>
+                    <td>
+                        <input type="text" th:field="*{id}" readonly="readonly"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nazwa:</td>
+                    <td>
+                        <input type="text" th:field="*{name}"/>
+                    </td>
+                </tr>
+                <td colspan="2">
+                    <button type="submit">Zapisz</button>
+                </td>
+                </tr>
+            </table>
+            <span th:field="${jobsList.created}"/>
+            <span th:field="${jobsList.edited}"/>
+        </form>
+    </div>
+</div>
+</body>
 </html>

@@ -1,6 +1,7 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -33,11 +34,15 @@ public class JobsListController {
         return url.JOBS_LIST_NEW_PAGE;
     }
 
-    @PostMapping(value = url.JOBS_LIST_SAVE_PAGE)
+
+    @RequestMapping(value = url.JOBS_LIST_SAVE_PAGE, method = {RequestMethod.GET, RequestMethod.PUT})
     public String saveJobsList(@ModelAttribute("jobsList") JobsList jobsList) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
-        user.addJobsList(jobsList);
+
+        if (user.getJobsList().size() == 0)
+            user.addJobsList(jobsList);
+
         jobsList.addOwner(user);
 
         if (jobsList.getCreated() == null) {
@@ -46,6 +51,13 @@ public class JobsListController {
         jobsList.setEdited(new Date());
         jobsListService.saveJobsList(jobsList);
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+    }
+
+    @GetMapping(value = url.JOBS_LIST_EDIT_PAGE+"/{id}")
+    public ModelAndView edit(@PathVariable(name = "id") int id) {
+        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_EDIT_PAGE);
+        modelAndView.addObject("jobsList", jobsListService.find(id));
+        return modelAndView;
     }
 
     @GetMapping(value = url.JOBS_LIST_HOME_PAGE)
@@ -59,12 +71,7 @@ public class JobsListController {
         return modelAndView;
     }
 
-    @GetMapping(value = url.JOBS_LIST_EDIT_PAGE+"/{id}")
-    public ModelAndView edit(@PathVariable(name = "id") int id) {
-        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_EDIT_PAGE);
-        modelAndView.addObject("jobsList", jobsListService.find(id));
-        return modelAndView;
-    }
+
 
     @GetMapping(value = url.JOBS_LIST_DELETE_PAGE)
     public ModelAndView delete() {
