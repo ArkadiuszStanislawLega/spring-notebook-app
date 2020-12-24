@@ -14,6 +14,7 @@ public class url {
     public static final String JOBS_LIST_DELETE_PAGE = "/jobsList/delete";
     public static final String JOBS_LIST_NEW_PAGE = "/jobsList/new";
     public static final String JOBS_LIST_SAVE_PAGE = "/jobsList/save";
+    public static final String JOBS_LIST_CONFIRM_DELETE_PAGE = "/jobsList/confirmDelete";
 
 
 }

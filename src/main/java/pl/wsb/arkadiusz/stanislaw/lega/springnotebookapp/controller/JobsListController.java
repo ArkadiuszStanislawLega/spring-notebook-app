@@ -1,12 +1,10 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
@@ -15,7 +13,6 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 
-import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -72,11 +69,22 @@ public class JobsListController {
     }
 
 
-
     @GetMapping(value = url.JOBS_LIST_DELETE_PAGE)
-    public ModelAndView delete() {
+    public ModelAndView delete(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_DELETE_PAGE);
-        modelAndView.addObject("jobsList", new JobsList());
+        modelAndView.addObject("jobsList", jobsListService.find(id));
         return modelAndView;
+    }
+
+
+    @RequestMapping(value = url.JOBS_LIST_CONFIRM_DELETE_PAGE, method =RequestMethod.GET)
+    public String confirmDelete(@ModelAttribute("jobsList") JobsList jobsList) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+
+        if (jobsList.getOwner().contains(user.getId())){
+            jobsListService.removeJobsList(jobsList);
+        }
+        return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 }

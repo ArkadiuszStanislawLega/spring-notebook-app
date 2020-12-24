@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main_layout.html}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="pl">
 <head>
     <meta charset="UTF-8">
     <title>jobsList - delete</title>
 </head>
 <body>
-DELETE
+<div layout:fragment="content">
+    <h1>Usuwanie listy zadań </h1>
+    <div align="center">
+        <h1>Aktualizuj dane listy</h1>
+        <br/>
+        <form action="#" th:action="@{/jobsList/confirmDelete}" th:object="${jobsList}" method="post">
+            <table border="0" cellpadding="10">
+                <tr>
+                    <td>Id:</td>
+                    <td>
+                        <span type="text" th:field="*{id}" readonly="readonly"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nazwa:</td>
+                    <td>
+                        <input type="text" th:field="*{name}" readonly="readonly"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Utworzono:</td>
+                    <td>
+                        <input type="text" th:field="*{created}" readonly="readonly"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Edytowano:</td>
+                    <td>
+                        <input type="text" th:field="*{edited}" readonly="readonly"/>
+                    </td>
+                </tr>
+                <td colspan="2">
+                    <button type="submit">Usuń</button>
+                </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 </body>
 </html>

@@ -11,8 +11,7 @@
 <body>
 <div layout:fragment="content">
     <div align="center">
-        <h1>Lista list użytkownika</h1>
-        <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/new/'}">Nowa </a>
+        <h1>Lista list użytkownika <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/new/'}">Nowa </a></h1>
         <div class="panel-heading">
             <div class="panel-heading">
                 <span th:utext="${information}"></span>
@@ -37,6 +36,9 @@
                     <td>
                         <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/edit/' + ${jobList.id}}">
                             Edytuj
+                        </a>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/delete/' + ${jobList.id}}">
+                            Usuń
                         </a>
                     </td>
                 </tr>
