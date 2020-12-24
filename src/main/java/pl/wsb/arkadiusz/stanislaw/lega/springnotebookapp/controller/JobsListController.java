@@ -12,12 +12,12 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 
 import javax.validation.Valid;
 import java.util.*;
 
 @Controller
-@RequestMapping("/jobsList")
 public class JobsListController {
 
     @Autowired
@@ -26,53 +26,50 @@ public class JobsListController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="/new")
-    public String create(Model model){
+    @RequestMapping(value = url.JOBS_LIST_NEW_PAGE)
+    public String create(Model model) {
         JobsList jobsList = new JobsList();
         model.addAttribute("jobsList", jobsList);
-        return  "jobsList/new";
+        return url.JOBS_LIST_NEW_PAGE;
     }
 
-    @PostMapping(value = "/save")
-    public String saveJobsList(@ModelAttribute("jobsList") JobsList jobsList){
+    @PostMapping(value = url.JOBS_LIST_SAVE_PAGE)
+    public String saveJobsList(@ModelAttribute("jobsList") JobsList jobsList) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
         user.addJobsList(jobsList);
         jobsList.addOwner(user);
 
-        if (jobsList.getCreated() == null){
+        if (jobsList.getCreated() == null) {
             jobsList.setCreated(new Date());
         }
         jobsList.setEdited(new Date());
         jobsListService.saveJobsList(jobsList);
-        return "redirect:/jobsList/home";
+        return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 
-    @GetMapping(value = "/home")
-    public ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView();
+    @GetMapping(value = url.JOBS_LIST_HOME_PAGE)
+    public ModelAndView home() {
+        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_HOME_PAGE);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
 
         modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getJobsList().size() + " list.");
-        modelAndView.addObject("jobsLists",  user.getJobsList());
-        modelAndView.setViewName("jobsList/home");
+        modelAndView.addObject("jobsLists", user.getJobsList());
         return modelAndView;
     }
 
-    @GetMapping(value="/edit/{id}")
-    public ModelAndView edit(@PathVariable(name="id") int id){
-        ModelAndView modelAndView = new ModelAndView("jobsList/edit");
+    @GetMapping(value = url.JOBS_LIST_EDIT_PAGE+"/{id}")
+    public ModelAndView edit(@PathVariable(name = "id") int id) {
+        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_EDIT_PAGE);
         modelAndView.addObject("jobsList", jobsListService.find(id));
         return modelAndView;
     }
 
-    @GetMapping(value="/delete")
-    public ModelAndView delete(){
-        ModelAndView modelAndView = new ModelAndView();
-        JobsList jobsList = new JobsList();
-        modelAndView.addObject("jobsList", jobsList);
-        modelAndView.setViewName("jobsList/delete");
-        return  modelAndView;
+    @GetMapping(value = url.JOBS_LIST_DELETE_PAGE)
+    public ModelAndView delete() {
+        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_DELETE_PAGE);
+        modelAndView.addObject("jobsList", new JobsList());
+        return modelAndView;
     }
 }
