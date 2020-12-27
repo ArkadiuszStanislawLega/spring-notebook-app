@@ -137,4 +137,9 @@ public class User {
     public Set<JobsList> getJobsLists() {
         return this.jobsLists;
     }
+
+    public Set<Job> getJobs() {
+        return jobs;
+    }
 }
+
