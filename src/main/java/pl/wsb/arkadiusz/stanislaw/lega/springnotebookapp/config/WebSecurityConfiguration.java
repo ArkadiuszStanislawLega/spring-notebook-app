@@ -48,6 +48,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                                             url.REGISTRATION_PAGE,
                                             url.LOGIN_PAGE).permitAll()
                     .antMatchers( "/admin/**", "/jobsList/**").hasAuthority(Roles.ROLE_ADMIN)
+                    .antMatchers("/jobsList/**").hasAuthority(Roles.ROLE_USER)
                     .anyRequest()
                     .authenticated()
                     .and()

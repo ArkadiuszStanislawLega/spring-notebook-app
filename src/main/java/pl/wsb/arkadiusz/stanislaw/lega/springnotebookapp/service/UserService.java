@@ -3,6 +3,7 @@ package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.Role;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.RoleRepository;
@@ -35,6 +36,7 @@ public class UserService {
     public User findUserByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
+
 
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

@@ -33,8 +33,9 @@ public class JobsList {
     @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
     private Date edited;
 
-    @ManyToMany
-    Set<User> owner;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
 
     public Integer getId() {
         return id;
@@ -68,26 +69,18 @@ public class JobsList {
         this.edited = edited;
     }
 
-    public Set<User> getOwner() {
+    public User getOwner() {
         return owner;
     }
 
     @Autowired(required=true)
-    public void setOwner(Set<User> owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    public void addOwner(User user){
-        this.owner.add(user);
-    }
 
-    public void removeUser(User user){
-        this.owner.remove(user);
-    }
 
-    public JobsList() {
-        this.owner = new HashSet<>();
-    }
+    public JobsList(){ }
 
 
     public JobsList(Integer id, @NotEmpty(message = "*Please provide a jobs list name") String name, Date created, Date edited) {

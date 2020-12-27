@@ -42,21 +42,24 @@ public class JobsListController {
         return url.JOBS_LIST_NEW_PAGE;
     }
 
-    @RequestMapping(value = url.JOBS_LIST_SAVE_PAGE, method = {RequestMethod.GET, RequestMethod.PUT})
-    public String saveJobsList(@ModelAttribute("jobsList") JobsList jobsList) {
+    @RequestMapping(value = url.JOBS_LIST_SAVE_PAGE, method = {RequestMethod.POST, RequestMethod.PUT})
+    public String save(@ModelAttribute("jobsList") JobsList jobsList) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
+        jobsList.setOwner(user);
 
         if (user.getJobsList().size() == 0)
             user.addJobsList(jobsList);
-
-        jobsList.addOwner(user);
 
         if (jobsList.getCreated() == null) {
             jobsList.setCreated(new Date());
         }
         jobsList.setEdited(new Date());
+
+        user.addJobsList(jobsList);
+
         jobsListService.saveJobsList(jobsList);
+
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 
@@ -67,22 +70,15 @@ public class JobsListController {
         return modelAndView;
     }
 
-    @GetMapping(value = url.JOBS_LIST_DELETE_PAGE+"/{id}")
-    public ModelAndView delete(@PathVariable(name = "id") int id) {
-        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_DELETE_PAGE);
-        modelAndView.addObject("jobsList", jobsListService.find(id));
-        return modelAndView;
-    }
-
-
-    @RequestMapping(value = url.JOBS_LIST_CONFIRM_DELETE_PAGE, method =RequestMethod.GET)
-    public String confirmDelete(@ModelAttribute("jobsList") JobsList jobsList) {
+    @RequestMapping(value = url.JOBS_LIST_DELETE_PAGE+"/{id}")
+    public String delete(@PathVariable(name = "id") int id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
 
-        if (jobsList.getOwner().contains(user.getId())){
-            jobsListService.removeJobsList(jobsList);
-        }
+        JobsList jobsList = jobsListService.find(id);
+
+        jobsListService.removeJobsList(jobsList);
+
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 }

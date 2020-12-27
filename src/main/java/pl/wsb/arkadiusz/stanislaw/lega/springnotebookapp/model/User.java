@@ -57,10 +57,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "users_lists",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "users_lists_id"))
+    @OneToMany(mappedBy = "owner")
     private Set<JobsList> jobsList;
 
     public Integer getId() {
