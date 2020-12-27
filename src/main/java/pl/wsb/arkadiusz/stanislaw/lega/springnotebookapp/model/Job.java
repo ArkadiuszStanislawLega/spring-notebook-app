@@ -37,6 +37,54 @@ public class Job {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getEdited() {
+        return edited;
+    }
+
+    public void setEdited(Date edited) {
+        this.edited = edited;
+    }
+
+    public JobsList getParent() {
+        return parent;
+    }
+
+    public void setParent(JobsList parent) {
+        this.parent = parent;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     public Job() {
         this.parent = new JobsList();
         this.owner = new User();

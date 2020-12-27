@@ -28,7 +28,7 @@
                 </thead>
                 <tr th:each="jobList : ${jobsLists}">
                     <td th:text="${jobList.id}">Id</td>
-                    <td th:text="${jobList.name}"></td>
+                    <td th:text="${jobList.name}">Nazwa</td>
                     <td th:text="${jobList.created}">Utworzono</td>
                     <td th:text="${jobList.edited}">Edytowano</td>
                     <td>
@@ -37,6 +37,9 @@
                         </a>
                         <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/delete/' + ${jobList.id}}">
                             Usuń
+                        </a>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/job/new/' + ${jobList.id}}">
+                            Dodaj
                         </a>
                     </td>
                 </tr>
