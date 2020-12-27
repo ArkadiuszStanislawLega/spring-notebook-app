@@ -16,12 +16,11 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired(required=true)
+    @Autowired(required = true)
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private MyUserDetailsService userDetailsService;
-
 
 
     @Override
@@ -37,31 +36,31 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                    .antMatchers("/resources/**",
-                                            "/static/**",
-                                            "/webjars/**",
-                                            "/css/**",
-                                            "/js/**",
-                                            "/images/**",
-                                            "/templates/**",
-                                            url.HOME_PAGE,
-                                            url.REGISTRATION_PAGE,
-                                            url.LOGIN_PAGE).permitAll()
-                    .antMatchers( "/admin/**", "/jobsList/**").hasAuthority(Roles.ROLE_ADMIN)
-                    .antMatchers("/jobsList/**").hasAuthority(Roles.ROLE_USER)
-                    .anyRequest()
-                    .authenticated()
-                    .and()
+                .antMatchers("/resources/**",
+                        "/static/**",
+                        "/webjars/**",
+                        "/css/**",
+                        "/js/**",
+                        "/images/**",
+                        "/templates/**",
+                        url.HOME_PAGE,
+                        url.REGISTRATION_PAGE,
+                        url.LOGIN_PAGE).permitAll()
+                .antMatchers(url.JOBS_LIST_PAGE_ACCESS_ALL).hasAuthority(Roles.ROLE_ADMIN)
+                .antMatchers(url.JOBS_LIST_PAGE_ACCESS_ALL, url.JOBS_PAGE_ACCESS_ALL).hasAuthority(Roles.ROLE_USER)
+                .anyRequest()
+                .authenticated()
+                .and()
                 .csrf().disable()
-                    .formLogin()
-                    .loginPage(url.LOGIN_PAGE)
-                    .failureUrl("/login?error=true")
-                    .defaultSuccessUrl(url.HOME_PAGE, true)
-                    .usernameParameter("user_name")
-                    .passwordParameter("password")
-                    .and()
+                .formLogin()
+                .loginPage(url.LOGIN_PAGE)
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl(url.HOME_PAGE, true)
+                .usernameParameter("user_name")
+                .passwordParameter("password")
+                .and()
                 .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher(url.LOGOUT_PAGE))
-                    .logoutSuccessUrl(url.HOME_PAGE).and().exceptionHandling();
+                .logoutRequestMatcher(new AntPathRequestMatcher(url.LOGOUT_PAGE))
+                .logoutSuccessUrl(url.HOME_PAGE).and().exceptionHandling();
     }
 }
