@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -58,7 +57,10 @@ public class User {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "owner")
-    private Set<JobsList> jobsList;
+    private Set<JobsList> jobsLists;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<Job> jobs;
 
     public Integer getId() {
         return id;
@@ -125,14 +127,14 @@ public class User {
     }
 
     public void addJobsList(JobsList jobsList){
-        this.jobsList.add(jobsList);
+        this.jobsLists.add(jobsList);
     }
 
     public void removeJobsList(JobsList jobsList){
-        this.jobsList.remove(jobsList);
+        this.jobsLists.remove(jobsList);
     }
 
-    public Set<JobsList>getJobsList() {
-        return this.jobsList;
+    public Set<JobsList> getJobsLists() {
+        return this.jobsLists;
     }
 }

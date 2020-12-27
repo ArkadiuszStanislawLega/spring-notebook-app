@@ -30,8 +30,8 @@ public class JobsListController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
 
-        modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getJobsList().size() + " list.");
-        modelAndView.addObject("jobsLists", user.getJobsList());
+        modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getJobsLists().size() + " list.");
+        modelAndView.addObject("jobsLists", user.getJobsLists());
         return modelAndView;
     }
 
@@ -48,7 +48,7 @@ public class JobsListController {
         User user = userService.findUserByUserName(auth.getName());
         jobsList.setOwner(user);
 
-        if (user.getJobsList().size() == 0)
+        if (user.getJobsLists().size() == 0)
             user.addJobsList(jobsList);
 
         if (jobsList.getCreated() == null) {
@@ -68,7 +68,7 @@ public class JobsListController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
 
-        for (JobsList job : user.getJobsList()) {
+        for (JobsList job : user.getJobsLists()) {
             if (job.getId() == jobsList.getId()){
                 jobsList.setOwner(user);
                 jobsList.setCreated(jobsList.getCreated());

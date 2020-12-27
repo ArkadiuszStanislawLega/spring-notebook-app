@@ -16,7 +16,7 @@ public class JobsList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "users_lists_id")
+    @Column(name = "jobs_list_id")
     private Integer id;
 
     @Column(name = "name")
@@ -36,6 +36,9 @@ public class JobsList {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
+
+    @OneToMany(mappedBy = "parent")
+    private Set<Job> jobsList;
 
     public Integer getId() {
         return id;
