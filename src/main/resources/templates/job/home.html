@@ -1,0 +1,49 @@
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/main_layout.html}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="pl">
+<head>
+    <title>Zadania | MovieApp</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <div align="center">
+        <h1>Lista zadań użytkownika <a class="btn btn-sm btn-secondary" th:href="@{'/job/new/'}">Nowa </a></h1>
+        <div class="panel-heading">
+            <div class="panel-heading">
+                <span th:utext="${information}"></span>
+            </div>
+            <br/><br/>
+            <table border="1" cellpadding="10">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nazwa</th>
+                    <th>Utworzono</th>
+                    <th>Edytowano</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tr th:each="job : ${jobsList}">
+                    <td th:text="${job.id}">Id</td>
+                    <td th:text="${job.name}">Nazwa</td>
+                    <td th:text="${job.created}">Utworzono</td>
+                    <td th:text="${job.edited}">Edytowano</td>
+                    <td>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/job/edit/' + ${job.id}}">
+                            Edytuj
+                        </a>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/job/delete/' + ${job.id}}">
+                            Usuń
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
