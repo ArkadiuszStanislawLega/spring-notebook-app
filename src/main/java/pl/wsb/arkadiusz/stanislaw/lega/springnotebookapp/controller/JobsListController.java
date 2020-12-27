@@ -24,13 +24,23 @@ public class JobsListController {
     @Autowired
     private UserService userService;
 
+    @GetMapping(value = url.JOBS_LIST_HOME_PAGE)
+    public ModelAndView home() {
+        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_HOME_PAGE);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+
+        modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getJobsList().size() + " list.");
+        modelAndView.addObject("jobsLists", user.getJobsList());
+        return modelAndView;
+    }
+
     @RequestMapping(value = url.JOBS_LIST_NEW_PAGE)
     public String create(Model model) {
         JobsList jobsList = new JobsList();
         model.addAttribute("jobsList", jobsList);
         return url.JOBS_LIST_NEW_PAGE;
     }
-
 
     @RequestMapping(value = url.JOBS_LIST_SAVE_PAGE, method = {RequestMethod.GET, RequestMethod.PUT})
     public String saveJobsList(@ModelAttribute("jobsList") JobsList jobsList) {
@@ -57,19 +67,7 @@ public class JobsListController {
         return modelAndView;
     }
 
-    @GetMapping(value = url.JOBS_LIST_HOME_PAGE)
-    public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_HOME_PAGE);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-
-        modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getJobsList().size() + " list.");
-        modelAndView.addObject("jobsLists", user.getJobsList());
-        return modelAndView;
-    }
-
-
-    @GetMapping(value = url.JOBS_LIST_DELETE_PAGE)
+    @GetMapping(value = url.JOBS_LIST_DELETE_PAGE+"/{id}")
     public ModelAndView delete(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_DELETE_PAGE);
         modelAndView.addObject("jobsList", jobsListService.find(id));
