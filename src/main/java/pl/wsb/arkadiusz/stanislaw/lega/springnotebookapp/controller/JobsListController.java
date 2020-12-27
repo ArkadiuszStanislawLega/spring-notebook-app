@@ -63,6 +63,25 @@ public class JobsListController {
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 
+    @RequestMapping(value = url.JOBS_LIST_SAVE_UPDATE_PAGE, method = {RequestMethod.GET, RequestMethod.PUT})
+    public String saveUpdate(@ModelAttribute("jobsList") JobsList jobsList) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+
+        for (JobsList job : user.getJobsList()) {
+            if (job.getId() == jobsList.getId()){
+                jobsList.setOwner(user);
+                jobsList.setCreated(jobsList.getCreated());
+                jobsList.setEdited(new Date());
+                jobsListService.saveJobsList(jobsList);
+                break;
+            }
+        }
+        return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+    }
+
+
+
     @GetMapping(value = url.JOBS_LIST_EDIT_PAGE+"/{id}")
     public ModelAndView edit(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_EDIT_PAGE);

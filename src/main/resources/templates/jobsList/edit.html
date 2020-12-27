@@ -12,7 +12,7 @@
     <div align="center">
         <h1>Aktualizuj dane listy</h1>
         <br/>
-        <form action="#" th:action="@{/jobsList/save}" th:object="${jobsList}" ethod="post">
+        <form action="#" th:action="@{/jobsList/saveUpdate}" th:object="${jobsList}" method="GET">
             <table border="0" cellpadding="10">
                 <tr>
                     <td>Id:</td>
@@ -24,6 +24,18 @@
                     <td>Nazwa:</td>
                     <td>
                         <input type="text" th:field="*{name}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Utworzono:</td>
+                    <td>
+                        <input type="text" th:field="*{created}" readonly="readonly"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Edytowano:</td>
+                    <td>
+                        <input type="text" th:field="*{edited}" readonly="readonly"/>
                     </td>
                 </tr>
                 <td colspan="2">

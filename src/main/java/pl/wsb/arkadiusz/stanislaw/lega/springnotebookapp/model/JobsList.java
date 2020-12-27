@@ -78,15 +78,15 @@ public class JobsList {
         this.owner = owner;
     }
 
+    public JobsList(){
+        this.owner = new User();
+    }
 
-
-    public JobsList(){ }
-
-
-    public JobsList(Integer id, @NotEmpty(message = "*Please provide a jobs list name") String name, Date created, Date edited) {
+    public JobsList(Integer id, @NotEmpty(message = "*Please provide a jobs list name") String name, Date created, Date edited, User owner) {
         this.id = id;
         this.name = name;
         this.created = created;
         this.edited = edited;
+        this.owner = owner;
     }
 }
