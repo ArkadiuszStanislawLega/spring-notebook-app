@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      lang="pl">
+<html  xmlns:layout="http://www.w3.org/1999/xhtml"
+       layout:decorate="~{layouts/main_layout.html}"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:th="http://www.thymeleaf.org"
+       lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>jobslist - new</title>
+    <title>Lista zadań - nowa</title>
 </head>
 <body>
-<div align="center">
-    <h1>Dodaj Aktora</h1>
+<div layout:fragment="content" align="center">
+    <h1>Dodaj Listę zadań</h1>
     <br />
     <form action="#" th:action="@{/jobsList/save}" th:object="${jobsList}" method="post">
 
