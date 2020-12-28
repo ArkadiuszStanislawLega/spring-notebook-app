@@ -1,6 +1,7 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,13 +17,11 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class JobController {
-    private JobsList parent;
+    private Map<Integer, JobsList> parents = new HashMap<>();
 
     @Autowired
     private JobService jobService;
@@ -56,10 +55,11 @@ public class JobController {
 
     @RequestMapping(value = url.JOB_NEW_PAGE+"/{id}")
     public String create(@PathVariable(name = "id") Integer parentId, Model model) {
-        this.parent = parentService.find(parentId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User owner = ownerService.findUserByUserName(auth.getName());
+        this.parents.put(owner.getId(), parentService.find(parentId));
 
         Job job = new Job();
-        job.setParent(parent);
 
         model.addAttribute("job", job);
         return url.JOB_NEW_PAGE;
@@ -68,17 +68,47 @@ public class JobController {
     @RequestMapping(value =  url.JOB_SAVE_PAGE, method = {RequestMethod.POST, RequestMethod.PUT})
     public String save(@ModelAttribute("job") Job job) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User owner = ownerService.findUserByUserName(auth.getName());
+        User userLoggedIn = ownerService.findUserByUserName(auth.getName());
+        User jobParentOwner = this.parents.get(userLoggedIn.getId()).getOwner();
 
-        if (owner.getId() == this.parent.getOwner().getId()) {
-            job.setParent(this.parent);
+        if (userLoggedIn.getId() == jobParentOwner.getId()) {
+            job.setParent(this.parents.get(userLoggedIn.getId()));
             job.setCreated(new Date());
             job.setEdited(new Date());
 
             jobService.saveJob(job);
 
-            this.parent = null;
+            this.parents.remove(userLoggedIn.getId());
         }
+        return "redirect:" + url.JOB_HOME_PAGE;
+    }
+
+    @GetMapping(value = url.JOB_EDIT_PAGE+"/{id}")
+    public ModelAndView edit(@PathVariable(name = "id") int id) {
+        ModelAndView modelAndView = new ModelAndView(url.JOB_EDIT_PAGE);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User owner = ownerService.findUserByUserName(auth.getName());
+
+        Job job = jobService.find(id);
+        this.parents.put(owner.getId(), job.getParent());
+
+        modelAndView.addObject("job", job);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = url.JOB_SAVE_UPDATE_PAGE, method = {RequestMethod.GET, RequestMethod.PUT})
+    public String saveUpdate(@ModelAttribute("job") Job job) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User userLoggedIn = ownerService.findUserByUserName(auth.getName());
+        User jobParentOwner = this.parents.get(userLoggedIn.getId()).getOwner();
+
+        if (userLoggedIn.getId() == jobParentOwner.getId()){
+            job.setParent(this.parents.get(userLoggedIn.getId()));
+            jobService.saveJob(job);
+
+            this.parents.remove(userLoggedIn.getId());
+        }
+
         return "redirect:" + url.JOB_HOME_PAGE;
     }
 }

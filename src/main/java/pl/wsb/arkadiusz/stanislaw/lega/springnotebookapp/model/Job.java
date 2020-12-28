@@ -20,16 +20,16 @@ public class Job {
     private String title;
 
     @Column(name = "content")
-    private String Content = "";
+    private String content = "";
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "edited")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     private Date edited;
 
     @ManyToOne(targetEntity = JobsList.class)
@@ -61,11 +61,11 @@ public class Job {
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
     }
 
     public Date getEdited() {
@@ -84,6 +84,7 @@ public class Job {
         this.parent = parent;
     }
 
+
     public Job() {
         this.parent = new JobsList();
     }
@@ -91,9 +92,13 @@ public class Job {
     public Job(Integer id, @NotEmpty(message = "*Please provide a job name") String title, String content, Date created, Date edited, JobsList parent) {
         this.id = id;
         this.title = title;
-        Content = content;
+        this.content = content;
         this.created = created;
         this.edited = edited;
         this.parent = parent;
+    }
+
+    public String toString(){
+        return this.id + " " + this.title + " " + this.content + " Parent: " + this.parent.getId();
     }
 }

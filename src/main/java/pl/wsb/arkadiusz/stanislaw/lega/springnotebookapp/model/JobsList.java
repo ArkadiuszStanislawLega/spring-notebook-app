@@ -25,12 +25,12 @@ public class JobsList {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "edited")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     private Date edited;
 
     @ManyToOne

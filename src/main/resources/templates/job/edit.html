@@ -5,14 +5,14 @@
       lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>jobslist - edit</title>
+    <title>Zadanie - edycja</title>
 </head>
 <body>
 <div layout:fragment="content">
     <div align="center">
-        <h1>Aktualizuj dane listy</h1>
+        <h1>Aktualizuj dane zadania</h1>
         <br/>
-        <form action="#" th:action="@{/jobsList/saveUpdate}" th:object="${jobsList}" method="GET">
+        <form action="#" th:action="@{/job/saveUpdate}" th:object="${job}" method="GET">
             <table border="0" cellpadding="10">
                 <tr>
                     <td>Id:</td>
@@ -21,9 +21,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Nazwa:</td>
+                    <td>Tytuł:</td>
                     <td>
-                        <input type="text" th:field="*{name}"/>
+                        <input type="text" th:field="*{title}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Opis zadania:</td>
+                    <td>
+                        <input type="text" th:field="*{content}"/>
                     </td>
                 </tr>
                 <tr>
@@ -38,13 +44,17 @@
                         <input type="text" th:field="*{edited}" readonly="readonly"/>
                     </td>
                 </tr>
+                <tr>
+                    <td>Lista:</td>
+                    <td>
+                        <input type="text" th:field="*{parent.name}" readonly="readonly"/>
+                    </td>
+                </tr>
                 <td colspan="2">
                     <button type="submit">Zapisz</button>
                 </td>
                 </tr>
             </table>
-            <span th:field="${jobsList.created}"/>
-            <span th:field="${jobsList.edited}"/>
         </form>
     </div>
 </div>
