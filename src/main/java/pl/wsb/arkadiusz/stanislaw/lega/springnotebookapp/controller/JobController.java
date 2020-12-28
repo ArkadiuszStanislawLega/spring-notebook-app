@@ -19,7 +19,6 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class JobController {
@@ -42,12 +41,11 @@ public class JobController {
 
         List<Job> jobs = new ArrayList<>();
 
-        for(JobsList jl :     user.getJobsLists()){
-            for(Job j: jl.getJobsList()){
-                jobs.add(j);
+        for(JobsList parent : user.getJobsLists()){
+            for(Job job: parent.getJobsList()){
+                jobs.add(job);
             }
         }
-
 
         modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + jobs.size() + " zadań.");
         modelAndView.addObject("jobsList", jobs);
@@ -68,7 +66,7 @@ public class JobController {
     }
 
     @RequestMapping(value =  url.JOB_SAVE_PAGE, method = {RequestMethod.POST, RequestMethod.PUT})
-    public String save(@ModelAttribute("job") Job job, @ModelAttribute("parent") JobsList parent) {
+    public String save(@ModelAttribute("job") Job job) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User owner = ownerService.findUserByUserName(auth.getName());
 
@@ -77,7 +75,6 @@ public class JobController {
         job.setEdited(new Date());
 
         jobService.saveJob(job);
-//        this.parent.addJob(job);
 
         this.parent = null;
         return "redirect:" + url.JOB_HOME_PAGE;
