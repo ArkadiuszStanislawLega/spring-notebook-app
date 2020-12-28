@@ -111,4 +111,17 @@ public class JobController {
 
         return "redirect:" + url.JOB_HOME_PAGE;
     }
+
+    @RequestMapping(value = url.JOB_DELETE_PAGE+"/{id}")
+    public String delete(@PathVariable(name = "id") int id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = ownerService.findUserByUserName(auth.getName());
+        Job job = jobService.find(id);
+
+        if (user.getId() == job.getParent().getOwner().getId()) {
+            jobService.removeJob(job);
+        }
+
+        return "redirect:" + url.JOB_HOME_PAGE;
+    }
 }
