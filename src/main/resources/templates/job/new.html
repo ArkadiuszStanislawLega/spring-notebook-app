@@ -9,20 +9,28 @@
     <title>Nowe zadanie</title>
 </head>
 <body>
-<div align="center">
+<div layout:fragment="content" align="center">
     <h1>Dodaj zadanie</h1>
-    <br />
+    <br/>
     <form action="#" th:action="@{/job/save}" th:object="${job}" method="post">
 
         <table border="0" cellpadding="10">
             <tr>
-                <td>Nazwa:</td>
+                <td>Tytuł:</td>
                 <td>
-                    <input type="text" th:field="*{name}" />
+                    <input type="text" th:field="*{title}"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><button type="submit">Zapisz</button> </td>
+                <td>Opis zadania:</td>
+                <td>
+                    <input type="text" th:field="*{content}"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">Zapisz</button>
+                </td>
             </tr>
         </table>
     </form>

@@ -70,13 +70,15 @@ public class JobController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User owner = ownerService.findUserByUserName(auth.getName());
 
-        job.setParent(this.parent);
-        job.setCreated(new Date());
-        job.setEdited(new Date());
+        if (owner.getId() == this.parent.getOwner().getId()) {
+            job.setParent(this.parent);
+            job.setCreated(new Date());
+            job.setEdited(new Date());
 
-        jobService.saveJob(job);
+            jobService.saveJob(job);
 
-        this.parent = null;
+            this.parent = null;
+        }
         return "redirect:" + url.JOB_HOME_PAGE;
     }
 }

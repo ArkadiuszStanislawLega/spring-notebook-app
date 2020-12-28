@@ -19,17 +19,24 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nazwa</th>
+                    <th>Tytuł</th>
+                    <th>Opis zadania</th>
                     <th>Utworzono</th>
                     <th>Edytowano</th>
+                    <th>Lista zadań</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tr th:each="job : ${jobsList}">
                     <td th:text="${job.id}">Id</td>
-                    <td th:text="${job.name}">Nazwa</td>
+                    <td th:text="${job.title}">Nazwa</td>
+                    <td th:text="${job.content}">Opis zadania</td>
                     <td th:text="${job.created}">Utworzono</td>
                     <td th:text="${job.edited}">Edytowano</td>
+                    <td>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/edit/' + ${job.parent.id}}"
+                           th:text="${job.parent.name}"></a>
+                      </td>
                     <td>
                         <a class="btn btn-sm btn-secondary" th:href="@{'/job/edit/' + ${job.id}}">
                             Edytuj

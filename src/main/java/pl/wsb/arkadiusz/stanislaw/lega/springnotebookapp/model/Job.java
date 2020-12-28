@@ -15,9 +15,12 @@ public class Job {
     @Column(name = "job_id")
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "title")
     @NotEmpty(message = "*Please provide a job name")
-    private String name;
+    private String title;
+
+    @Column(name = "content")
+    private String Content = "";
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
@@ -41,12 +44,12 @@ public class Job {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getCreated() {
@@ -55,6 +58,14 @@ public class Job {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getContent() {
+        return Content;
+    }
+
+    public void setContent(String content) {
+        Content = content;
     }
 
     public Date getEdited() {
@@ -77,9 +88,10 @@ public class Job {
         this.parent = new JobsList();
     }
 
-    public Job(Integer id, @NotEmpty(message = "*Please provide a job name") String name, Date created, Date edited, JobsList parent) {
+    public Job(Integer id, @NotEmpty(message = "*Please provide a job name") String title, String content, Date created, Date edited, JobsList parent) {
         this.id = id;
-        this.name = name;
+        this.title = title;
+        Content = content;
         this.created = created;
         this.edited = edited;
         this.parent = parent;
