@@ -59,8 +59,6 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private Set<JobsList> jobsLists;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<Job> jobs;
 
     public Integer getId() {
         return id;
@@ -136,10 +134,6 @@ public class User {
 
     public Set<JobsList> getJobsLists() {
         return this.jobsLists;
-    }
-
-    public Set<Job> getJobs() {
-        return jobs;
     }
 }
 

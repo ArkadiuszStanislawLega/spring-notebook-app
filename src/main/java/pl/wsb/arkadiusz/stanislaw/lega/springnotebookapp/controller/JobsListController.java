@@ -46,20 +46,14 @@ public class JobsListController {
     public String save(@ModelAttribute("jobsList") JobsList jobsList) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
+
         jobsList.setOwner(user);
-
-        if (user.getJobsLists().size() == 0)
-            user.addJobsList(jobsList);
-
-        if (jobsList.getCreated() == null) {
-            jobsList.setCreated(new Date());
-        }
+        jobsList.setCreated(new Date());
         jobsList.setEdited(new Date());
 
         user.addJobsList(jobsList);
 
         jobsListService.saveJobsList(jobsList);
-
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 

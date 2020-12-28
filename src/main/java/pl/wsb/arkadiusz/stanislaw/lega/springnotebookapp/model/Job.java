@@ -29,13 +29,9 @@ public class Job {
     @DateTimeFormat(pattern = "dd.MM.yyyy hh:mmm:ss")
     private Date edited;
 
-    @ManyToOne
-    @JoinColumn(name = "jobs_list_id", nullable = false)
+    @ManyToOne(targetEntity = JobsList.class)
+    @JoinColumn(name = "jobs_list_id")
     private JobsList parent;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User owner;
 
     public Integer getId() {
         return id;
@@ -77,25 +73,15 @@ public class Job {
         this.parent = parent;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
     public Job() {
         this.parent = new JobsList();
-        this.owner = new User();
     }
 
-    public Job(Integer id, @NotEmpty(message = "*Please provide a job name") String name, Date created, Date edited, JobsList parent, User owner) {
+    public Job(Integer id, @NotEmpty(message = "*Please provide a job name") String name, Date created, Date edited, JobsList parent) {
         this.id = id;
         this.name = name;
         this.created = created;
         this.edited = edited;
         this.parent = parent;
-        this.owner = owner;
     }
 }

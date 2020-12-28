@@ -22,10 +22,6 @@ public class JobService {
         this.ownerRepository = ownerRepository;
     }
 
-    public List<Job> findJobsByUserName(String owner) {
-        return jobRepository.findJobsByOwner(owner);
-    }
-
     public List<Job> findJobsByParentId(Integer parentId) {
         return jobRepository.findJobsByParentId(parentId);
     }

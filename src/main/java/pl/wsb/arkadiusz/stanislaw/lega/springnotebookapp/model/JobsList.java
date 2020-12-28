@@ -37,8 +37,16 @@ public class JobsList {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(targetEntity = Job.class,
+                mappedBy = "parent",
+                cascade = CascadeType.ALL,
+                orphanRemoval = true)
     private Set<Job> jobsList;
+
+    public void addJob(Job job){
+        if (job != null)
+            this.jobsList.add(job);
+    }
 
     public Integer getId() {
         return id;
@@ -81,8 +89,13 @@ public class JobsList {
         this.owner = owner;
     }
 
+    public Set<Job> getJobsList() {
+        return jobsList;
+    }
+
     public JobsList(){
         this.owner = new User();
+        this.jobsList = new HashSet<>();
     }
 
     public JobsList(Integer id, @NotEmpty(message = "*Please provide a jobs list name") String name, Date created, Date edited, User owner) {
