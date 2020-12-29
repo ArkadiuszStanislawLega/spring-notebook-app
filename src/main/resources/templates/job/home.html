@@ -35,7 +35,7 @@
                     <td th:text="${job.created}">Utworzono</td>
                     <td th:text="${job.edited}">Edytowano</td>
                     <td>
-                        <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/edit/' + ${job.parent.id}}"
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/details/' + ${job.parent.id}}"
                            th:text="${job.parent.name}"></a>
                       </td>
                     <td>
