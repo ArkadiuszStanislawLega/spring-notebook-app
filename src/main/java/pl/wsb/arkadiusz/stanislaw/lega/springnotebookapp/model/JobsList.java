@@ -105,4 +105,8 @@ public class JobsList {
         this.edited = edited;
         this.owner = owner;
     }
+
+    public String toString(){
+        return this.id + " " + this.name + " id_owner: " + this.owner.getId();
+    }
 }

@@ -13,7 +13,7 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
 
-import java.util.*;
+import java.util.Date;
 
 @Controller
 public class JobsListController {
@@ -61,14 +61,17 @@ public class JobsListController {
     public String saveUpdate(@ModelAttribute("jobsList") JobsList jobsList) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
+        User dbUser = jobsListService.find(jobsList.getId()).getOwner();
 
-        for (JobsList job : user.getJobsLists()) {
-            if (job.getId() == jobsList.getId()){
-                jobsList.setOwner(user);
-                jobsList.setCreated(jobsList.getCreated());
-                jobsList.setEdited(new Date());
-                jobsListService.saveJobsList(jobsList);
-                break;
+        if(user.getId() == dbUser.getId()) {
+            for (JobsList job : user.getJobsLists()) {
+                if (job.getId() == jobsList.getId()) {
+                    jobsList.setOwner(user);
+                    jobsList.setCreated(jobsList.getCreated());
+                    jobsList.setEdited(new Date());
+                    jobsListService.saveJobsList(jobsList);
+                    break;
+                }
             }
         }
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
@@ -85,10 +88,10 @@ public class JobsListController {
     public String delete(@PathVariable(name = "id") int id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
-
         JobsList jobsList = jobsListService.find(id);
-
-        jobsListService.removeJobsList(jobsList);
+        if (jobsList.getOwner().getId() == user.getId()) {
+            jobsListService.removeJobsList(jobsList);
+        }
 
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
@@ -99,4 +102,5 @@ public class JobsListController {
         modelAndView.addObject("jobsList", jobsListService.find(id));
         return modelAndView;
     }
+
 }
