@@ -73,8 +73,9 @@ public class JobsListController {
                     break;
                 }
             }
+            return "redirect:" + url.JOBS_LIST_HOME_PAGE;
         }
-        return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+        return "redirect:" + url.HOME_PAGE;
     }
 
     @GetMapping(value = url.JOBS_LIST_EDIT_PAGE + "/{id}")
@@ -84,9 +85,11 @@ public class JobsListController {
         User user = userService.findUserByUserName(auth.getName());
         JobsList jobsList = jobsListService.find(id);
 
-        if (jobsList.getOwner().getId() == user.getId()) {
+        if (jobsList.getOwner().getId() == user.getId())
             modelAndView.addObject("jobsList", jobsListService.find(id));
-        }
+        else
+            modelAndView.setViewName(url.HOME_PAGE);
+
         return modelAndView;
     }
 
@@ -98,9 +101,10 @@ public class JobsListController {
 
         if (jobsList.getOwner().getId() == user.getId()) {
             jobsListService.removeJobsList(jobsList);
+            return "redirect:" + url.JOBS_LIST_HOME_PAGE;
         }
 
-        return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+        return "redirect:" + url.HOME_PAGE;
     }
 
     @GetMapping(value = url.JOBS_LIST_DETAILS_PAGE + "/{id}")
@@ -110,9 +114,11 @@ public class JobsListController {
         User user = userService.findUserByUserName(auth.getName());
         JobsList jobsList = jobsListService.find(id);
 
-        if (jobsList.getOwner().getId() == user.getId()) {
+        if (jobsList.getOwner().getId() == user.getId())
             modelAndView.addObject("jobsList", jobsListService.find(id));
-        }
+        else
+            modelAndView.setViewName(url.HOME_PAGE);
+
         return modelAndView;
     }
 
