@@ -74,8 +74,6 @@ public class JobsListController {
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 
-
-
     @GetMapping(value = url.JOBS_LIST_EDIT_PAGE+"/{id}")
     public ModelAndView edit(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_EDIT_PAGE);
@@ -93,5 +91,12 @@ public class JobsListController {
         jobsListService.removeJobsList(jobsList);
 
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+    }
+
+    @GetMapping(value = url.JOBS_LIST_DETAILS_PAGE+"/{id}")
+    public ModelAndView details(@PathVariable(name = "id") int id) {
+        ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_DETAILS_PAGE);
+        modelAndView.addObject("jobsList", jobsListService.find(id));
+        return modelAndView;
     }
 }
