@@ -36,17 +36,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/resources/**",
-                        "/static/**",
-                        "/webjars/**",
-                        "/css/**",
-                        "/js/**",
-                        "/images/**",
-                        "/templates/**",
+                .antMatchers(url.RESOURCES_FOLDER_ACCES_ALL,
+                        url.STATIC_FOLDER_ACCESS_ALL,
+                        url.WEBJARS_FOLDER_ACCESS_ALL,
+                        url.CSS_FOLDER_ACCESS_ALL,
+                        url.JS_FOLDER_ACCESS_ALL,
+                        url.IMAGES_FOLDER_ACCESS_ALL,
+                        url.TEMPLATES_FOLDER_ACCESS_ALL,
                         url.HOME_PAGE,
                         url.REGISTRATION_PAGE,
                         url.LOGIN_PAGE).permitAll()
-                .antMatchers(url.JOBS_LIST_PAGE_ACCESS_ALL).hasAuthority(Roles.ROLE_ADMIN)
+                .antMatchers(url.JOBS_LIST_PAGE_ACCESS_ALL, url.JOBS_PAGE_ACCESS_ALL).hasAuthority(Roles.ROLE_ADMIN)
                 .antMatchers(url.JOBS_LIST_PAGE_ACCESS_ALL, url.JOBS_PAGE_ACCESS_ALL).hasAuthority(Roles.ROLE_USER)
                 .anyRequest()
                 .authenticated()
