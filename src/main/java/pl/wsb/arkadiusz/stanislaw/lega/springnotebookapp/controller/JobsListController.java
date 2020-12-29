@@ -63,7 +63,7 @@ public class JobsListController {
         User user = userService.findUserByUserName(auth.getName());
         User dbUser = jobsListService.find(jobsList.getId()).getOwner();
 
-        if(user.getId() == dbUser.getId()) {
+        if (user.getId() == dbUser.getId()) {
             for (JobsList job : user.getJobsLists()) {
                 if (job.getId() == jobsList.getId()) {
                     jobsList.setOwner(user);
@@ -77,18 +77,25 @@ public class JobsListController {
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 
-    @GetMapping(value = url.JOBS_LIST_EDIT_PAGE+"/{id}")
+    @GetMapping(value = url.JOBS_LIST_EDIT_PAGE + "/{id}")
     public ModelAndView edit(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_EDIT_PAGE);
-        modelAndView.addObject("jobsList", jobsListService.find(id));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        JobsList jobsList = jobsListService.find(id);
+
+        if (jobsList.getOwner().getId() == user.getId()) {
+            modelAndView.addObject("jobsList", jobsListService.find(id));
+        }
         return modelAndView;
     }
 
-    @RequestMapping(value = url.JOBS_LIST_DELETE_PAGE+"/{id}")
+    @RequestMapping(value = url.JOBS_LIST_DELETE_PAGE + "/{id}")
     public String delete(@PathVariable(name = "id") int id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
         JobsList jobsList = jobsListService.find(id);
+
         if (jobsList.getOwner().getId() == user.getId()) {
             jobsListService.removeJobsList(jobsList);
         }
@@ -96,10 +103,16 @@ public class JobsListController {
         return "redirect:" + url.JOBS_LIST_HOME_PAGE;
     }
 
-    @GetMapping(value = url.JOBS_LIST_DETAILS_PAGE+"/{id}")
+    @GetMapping(value = url.JOBS_LIST_DETAILS_PAGE + "/{id}")
     public ModelAndView details(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_DETAILS_PAGE);
-        modelAndView.addObject("jobsList", jobsListService.find(id));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        JobsList jobsList = jobsListService.find(id);
+
+        if (jobsList.getOwner().getId() == user.getId()) {
+            modelAndView.addObject("jobsList", jobsListService.find(id));
+        }
         return modelAndView;
     }
 
