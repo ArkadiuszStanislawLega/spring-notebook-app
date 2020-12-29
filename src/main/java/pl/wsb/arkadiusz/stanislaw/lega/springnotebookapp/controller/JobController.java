@@ -80,7 +80,7 @@ public class JobController {
 
             this.parents.remove(userLoggedIn.getId());
         }
-        return "redirect:" + url.JOB_HOME_PAGE;
+        return "redirect:" + url.JOBS_LIST_DETAILS_PAGE + "/" + job.getParent().getId();
     }
 
     @GetMapping(value = url.JOB_EDIT_PAGE+"/{id}")
