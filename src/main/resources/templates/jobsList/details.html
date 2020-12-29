@@ -7,15 +7,6 @@
     <meta charset="UTF-8">
     <title>Lista zadań - szczegóły</title>
 </head>
-<style>
-    body{
-    margin-top:20px;
-    background:#F0F8FF;
-}
-
-
-
-</style>
 <body>
 <div layout:fragment="content">
     <div class="container">
@@ -37,6 +28,15 @@
                                  <small class="text-muted" >Użytkownik: </small><small th:text="${jobsList.owner.name}">owner.name</small>
                             </li>
                         </ul>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/edit/' + ${jobsList.id}}">
+                            Edytuj
+                        </a>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/jobsList/delete/' + ${jobsList.id}}">
+                            Usuń
+                        </a>
+                        <a class="btn btn-sm btn-secondary" th:href="@{'/job/new/' + ${jobsList.id}}">
+                            Dodaj
+                        </a>
                     </div>
                 </div>
             </div>
@@ -64,6 +64,7 @@
                         </div>
                         <h5 class="card-title mb-0">Lista zadań</h5>
                     </div>
+
                     <div class="card-body h-100" th:each="job : ${jobsList.jobsList}">
                         <div class="media">
                             <div class="media-body">
