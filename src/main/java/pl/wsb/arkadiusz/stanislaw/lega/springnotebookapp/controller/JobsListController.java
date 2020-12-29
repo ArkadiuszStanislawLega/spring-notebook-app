@@ -7,13 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobListsComparatorsByCreateDate;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class JobsListController {
@@ -30,8 +34,21 @@ public class JobsListController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
 
+        List<JobsList> sortedList = new ArrayList<>();
+        List<JobsList> reverseSortedList = new ArrayList<>();
+
+        for (JobsList jobList: user.getJobsLists()){
+            sortedList.add(jobList);
+        }
+
+        Collections.sort(sortedList, new JobListsComparatorsByCreateDate());
+
+        for (int i=sortedList.size()-1; i>=0; i--){
+            reverseSortedList.add(sortedList.get(i));
+        }
+
         modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getJobsLists().size() + " list.");
-        modelAndView.addObject("jobsLists", user.getJobsLists());
+        modelAndView.addObject("jobsLists", reverseSortedList);
         return modelAndView;
     }
 
@@ -64,10 +81,10 @@ public class JobsListController {
         User dbUser = jobsListService.find(jobsList.getId()).getOwner();
 
         if (user.getId() == dbUser.getId()) {
-            for (JobsList job : user.getJobsLists()) {
-                if (job.getId() == jobsList.getId()) {
+            for (JobsList userJobsList : user.getJobsLists()) {
+                if (userJobsList.getId() == jobsList.getId()) {
+                    jobsList.setCreated(userJobsList.getCreated());
                     jobsList.setOwner(user);
-                    jobsList.setCreated(jobsList.getCreated());
                     jobsList.setEdited(new Date());
                     jobsListService.saveJobsList(jobsList);
                     break;

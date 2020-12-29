@@ -4,18 +4,19 @@ public class url {
     public static final String CHILDREN = "/**";
 
     public static final String RESOURCES_FOLDER = "/resources";
-    public static final String RESOURCES_FOLDER_ACCESS_ALL = RESOURCES_FOLDER + CHILDREN;
     public static final String STATIC_FOLDER = "/static";
-    public static final String STATIC_FOLDER_ACCESS_ALL = STATIC_FOLDER + CHILDREN;
     public static final String WEBJARS_FOLDER = "/webjars";
-    public static final String WEBJARS_FOLDER_ACCESS_ALL = WEBJARS_FOLDER + CHILDREN;
     public static final String CSS_FOLDER = "/css";
-    public static final String CSS_FOLDER_ACCESS_ALL = CSS_FOLDER + CHILDREN;
     public static final String JS_FOLDER = "/js";
-    public static final String JS_FOLDER_ACCESS_ALL = JS_FOLDER + CHILDREN;
     public static final String IMAGES_FOLDER = "/images";
-    public static final String IMAGES_FOLDER_ACCESS_ALL = IMAGES_FOLDER + CHILDREN;
     public static final String TEMPLATES_FOLDER = "/templates";
+
+    public static final String RESOURCES_FOLDER_ACCESS_ALL = RESOURCES_FOLDER + CHILDREN;
+    public static final String STATIC_FOLDER_ACCESS_ALL = STATIC_FOLDER + CHILDREN;
+    public static final String WEBJARS_FOLDER_ACCESS_ALL = WEBJARS_FOLDER + CHILDREN;
+    public static final String CSS_FOLDER_ACCESS_ALL = CSS_FOLDER + CHILDREN;
+    public static final String JS_FOLDER_ACCESS_ALL = JS_FOLDER + CHILDREN;
+    public static final String IMAGES_FOLDER_ACCESS_ALL = IMAGES_FOLDER + CHILDREN;
     public static final String TEMPLATES_FOLDER_ACCESS_ALL = TEMPLATES_FOLDER + CHILDREN;
 
     public static final String HOME_PAGE = "/";
