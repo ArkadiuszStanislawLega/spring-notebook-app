@@ -3,12 +3,11 @@ package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.Role;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.RoleRepository;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.UserRepository;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.Roles;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Roles;
 
 import java.util.Arrays;
 import java.util.HashSet;

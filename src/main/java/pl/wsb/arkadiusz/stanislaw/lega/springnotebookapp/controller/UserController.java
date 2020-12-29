@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
 import javax.validation.Valid;
 

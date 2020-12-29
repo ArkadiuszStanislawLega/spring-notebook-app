@@ -9,8 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.MyUserDetailsService;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.Roles;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +35,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers(url.RESOURCES_FOLDER_ACCES_ALL,
+                .antMatchers(url.RESOURCES_FOLDER_ACCESS_ALL,
                         url.STATIC_FOLDER_ACCESS_ALL,
                         url.WEBJARS_FOLDER_ACCESS_ALL,
                         url.CSS_FOLDER_ACCESS_ALL,

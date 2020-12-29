@@ -13,7 +13,7 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.stat.url;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
 import java.util.*;
 
