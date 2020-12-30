@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Messages;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
 import javax.validation.Valid;
@@ -54,11 +55,10 @@ public class UserController {
         User userExists = userService.findUserByUserName(user.getUserName());
         if (userExists != null) {
             bindingResult
-                    .rejectValue("userName", "error.user",
-                            "Użytkownik o podanej nazwie już istnieje. Zmień nazwe i spróbuj jeszcze raz.");
+                    .rejectValue("userName", "error.user", Messages.ERROR_MESSAGE_REGISTRATION_FAIL);
         } else {
             userService.saveUser(user);
-            modelAndView.addObject("successMessage", "Zostałeś poprawnie zarejestrowany.");
+            modelAndView.addObject("successMessage", Messages.REGISTRATION_SUCCESSFUL);
             modelAndView.addObject("user", new User());
         }
         return modelAndView;
