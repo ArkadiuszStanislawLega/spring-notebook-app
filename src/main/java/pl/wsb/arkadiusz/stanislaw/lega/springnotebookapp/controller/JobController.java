@@ -38,23 +38,8 @@ public class JobController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = ownerService.findUserByUserName(auth.getName());
 
-        List<Job> jobs = new ArrayList<>();
-        List<Job> reverseSortedJobs = new ArrayList<>();
-
-        for (JobsList parent : user.getJobsLists()) {
-            for (Job job : parent.getJobsList()) {
-                jobs.add(job);
-            }
-        }
-
-        Collections.sort(jobs, new JobComparatorByCreateDate());
-
-        for (int i=jobs.size()-1; i>=0; i--){
-            reverseSortedJobs.add(jobs.get(i));
-        }
-
-        modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + jobs.size() + " zadań.");
-        modelAndView.addObject("jobsList", reverseSortedJobs);
+        modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getSortedByDateJobs().size() + " zadań.");
+        modelAndView.addObject("jobsList", user.getSortedByDateJobs());
 
         return modelAndView;
     }

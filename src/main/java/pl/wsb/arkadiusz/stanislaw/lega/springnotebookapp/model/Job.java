@@ -1,10 +1,14 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobComparatorByCreateDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="jobs")

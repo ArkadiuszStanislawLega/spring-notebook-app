@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobComparatorByCreateDate;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobListsComparatorsByCreateDate;
 
 import javax.persistence.*;
@@ -159,6 +160,29 @@ public class User {
         }
 
         return reverseSortedList;
+    }
+
+    /**
+     * Sorting Jobs by created date, newest at the beginning of list.
+     * @return List with sorted Jobs by created date.
+     */
+    public List<Job> getSortedByDateJobs()
+    {
+        List<Job> jobs = new ArrayList<>();
+        List<Job> reverseSortedJobs = new ArrayList<>();
+
+        for (JobsList parent : this.getJobsLists()) {
+            for (Job job : parent.getJobsList()) {
+                jobs.add(job);
+            }
+        }
+
+        Collections.sort(jobs, new JobComparatorByCreateDate());
+
+        for (int i=jobs.size()-1; i>=0; i--){
+            reverseSortedJobs.add(jobs.get(i));
+        }
+        return reverseSortedJobs;
     }
 }
 
