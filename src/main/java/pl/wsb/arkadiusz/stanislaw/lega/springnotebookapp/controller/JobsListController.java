@@ -7,14 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobListsComparatorsByCreateDate;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.exceptions.NotFoundException;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.exceptions.UnauthorizedException;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
-import java.util.*;
+import java.util.Date;
 
 @Controller
 public class JobsListController {
@@ -62,52 +63,83 @@ public class JobsListController {
 
     @RequestMapping(value = url.JOBS_LIST_SAVE_UPDATE_PAGE, method = {RequestMethod.GET, RequestMethod.PUT})
     public String saveUpdate(@ModelAttribute("jobsList") JobsList jobsList) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        User dbUser = jobsListService.find(jobsList.getId()).getOwner();
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findUserByUserName(auth.getName());
+            User dbUser = jobsListService.find(jobsList.getId()).getOwner();
 
-        if (user.getId() == dbUser.getId()) {
-            for (JobsList userJobsList : user.getJobsLists()) {
-                if (userJobsList.getId() == jobsList.getId()) {
-                    jobsList.setCreated(userJobsList.getCreated());
-                    jobsList.setOwner(user);
-                    jobsList.setEdited(new Date());
-                    jobsListService.saveJobsList(jobsList);
-                    break;
+            if (jobsList == null)
+                throw new NotFoundException("Lista nie została znaleziona.");
+
+            if (user.getId() == dbUser.getId()) {
+                for (JobsList userJobsList : user.getJobsLists()) {
+                    if (userJobsList.getId() == jobsList.getId()) {
+                        jobsList.setCreated(userJobsList.getCreated());
+                        jobsList.setOwner(user);
+                        jobsList.setEdited(new Date());
+                        jobsListService.saveJobsList(jobsList);
+                        break;
+                    }
                 }
+                return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+            } else {
+                throw new UnauthorizedException("Jesteś nie uprawniony do przejrzenia tej zawartości.");
             }
-            return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+        } catch (UnauthorizedException ex) {
+            return url.ERROR_UNAUTHORIZED;
+        } catch (NotFoundException ex) {
+            return url.ERROR_NOT_FOUND;
         }
-        return "redirect:" + url.HOME_PAGE;
     }
 
     @GetMapping(value = url.JOBS_LIST_EDIT_PAGE + "/{id}")
     public ModelAndView edit(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_EDIT_PAGE);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        JobsList jobsList = jobsListService.find(id);
 
-        if (jobsList.getOwner().getId() == user.getId())
-            modelAndView.addObject("jobsList", jobsListService.find(id));
-        else
-            modelAndView.setViewName(url.HOME_PAGE);
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findUserByUserName(auth.getName());
+            JobsList jobsList = jobsListService.find(id);
 
-        return modelAndView;
+            if (jobsList == null)
+                throw new NotFoundException("Lista nie została znaleziona.");
+
+            if (jobsList.getOwner().getId() == user.getId())
+                modelAndView.addObject("jobsList", jobsListService.find(id));
+            else {
+                throw new UnauthorizedException("Jesteś nie uprawniony do przejrzenia tej zawartości.");
+            }
+            return modelAndView;
+        } catch (UnauthorizedException ex) {
+            modelAndView.setViewName(url.ERROR_UNAUTHORIZED);
+            return modelAndView;
+        } catch (NotFoundException ex) {
+            modelAndView.setViewName(url.ERROR_NOT_FOUND);
+            return modelAndView;
+        }
     }
 
     @RequestMapping(value = url.JOBS_LIST_DELETE_PAGE + "/{id}")
     public String delete(@PathVariable(name = "id") int id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        JobsList jobsList = jobsListService.find(id);
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findUserByUserName(auth.getName());
+            JobsList jobsList = jobsListService.find(id);
 
-        if (jobsList.getOwner().getId() == user.getId()) {
-            jobsListService.removeJobsList(jobsList);
-            return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+            if (jobsList == null)
+                throw new NotFoundException("Lista nie została znaleziona.");
+
+            if (jobsList.getOwner().getId() == user.getId()) {
+                jobsListService.removeJobsList(jobsList);
+                return "redirect:" + url.JOBS_LIST_HOME_PAGE;
+            } else {
+                throw new UnauthorizedException("Jesteś nie uprawniony do przejrzenia tej zawartości.");
+            }
+        } catch (UnauthorizedException ex) {
+            return url.ERROR_UNAUTHORIZED;
+        } catch (NotFoundException ex) {
+            return url.ERROR_NOT_FOUND;
         }
-
-        return "redirect:" + url.HOME_PAGE;
     }
 
     @GetMapping(value = url.JOBS_LIST_DETAILS_PAGE + "/{id}")

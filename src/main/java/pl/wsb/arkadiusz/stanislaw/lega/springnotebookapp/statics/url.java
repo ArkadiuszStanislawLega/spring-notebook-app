@@ -11,6 +11,9 @@ public class url {
     public static final String IMAGES_FOLDER = "/images";
     public static final String TEMPLATES_FOLDER = "/templates";
 
+    public static final String ERROR_NOT_FOUND = "/error/not_found";
+    public static final String ERROR_UNAUTHORIZED = "/error/unauthorized";
+
     public static final String RESOURCES_FOLDER_ACCESS_ALL = RESOURCES_FOLDER + CHILDREN;
     public static final String STATIC_FOLDER_ACCESS_ALL = STATIC_FOLDER + CHILDREN;
     public static final String WEBJARS_FOLDER_ACCESS_ALL = WEBJARS_FOLDER + CHILDREN;
