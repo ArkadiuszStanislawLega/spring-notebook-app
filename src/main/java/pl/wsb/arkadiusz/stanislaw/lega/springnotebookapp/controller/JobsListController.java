@@ -13,6 +13,7 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Messages;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
 import java.util.Date;
@@ -69,7 +70,7 @@ public class JobsListController {
             User dbUser = jobsListService.find(jobsList.getId()).getOwner();
 
             if (jobsList == null)
-                throw new NotFoundException("Lista nie została znaleziona.");
+                throw new NotFoundException(url.JOBS_LIST_SAVE_UPDATE_PAGE + " " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
             if (user.getId() == dbUser.getId()) {
                 for (JobsList userJobsList : user.getJobsLists()) {
@@ -83,7 +84,7 @@ public class JobsListController {
                 }
                 return "redirect:" + url.JOBS_LIST_HOME_PAGE;
             } else {
-                throw new UnauthorizedException("Jesteś nie uprawniony do przejrzenia tej zawartości.");
+                throw new UnauthorizedException(url.JOBS_LIST_SAVE_UPDATE_PAGE + " " + Messages.ERROR_MESSAGE_UNAUTHORIZED);
             }
         } catch (UnauthorizedException ex) {
             return url.ERROR_UNAUTHORIZED;
@@ -102,12 +103,12 @@ public class JobsListController {
             JobsList jobsList = jobsListService.find(id);
 
             if (jobsList == null)
-                throw new NotFoundException("Lista nie została znaleziona.");
+                throw new NotFoundException(url.JOBS_LIST_EDIT_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
             if (jobsList.getOwner().getId() == user.getId())
                 modelAndView.addObject("jobsList", jobsListService.find(id));
             else {
-                throw new UnauthorizedException("Jesteś nie uprawniony do przejrzenia tej zawartości.");
+                throw new UnauthorizedException(url.JOBS_LIST_EDIT_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_UNAUTHORIZED);
             }
             return modelAndView;
         } catch (UnauthorizedException ex) {
@@ -127,13 +128,13 @@ public class JobsListController {
             JobsList jobsList = jobsListService.find(id);
 
             if (jobsList == null)
-                throw new NotFoundException("Lista nie została znaleziona.");
+                throw new NotFoundException(url.JOBS_LIST_DELETE_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
             if (jobsList.getOwner().getId() == user.getId()) {
                 jobsListService.removeJobsList(jobsList);
                 return "redirect:" + url.JOBS_LIST_HOME_PAGE;
             } else {
-                throw new UnauthorizedException("Jesteś nie uprawniony do przejrzenia tej zawartości.");
+                throw new UnauthorizedException(url.JOBS_LIST_DELETE_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_UNAUTHORIZED);
             }
         } catch (UnauthorizedException ex) {
             return url.ERROR_UNAUTHORIZED;
@@ -145,16 +146,28 @@ public class JobsListController {
     @GetMapping(value = url.JOBS_LIST_DETAILS_PAGE + "/{id}")
     public ModelAndView details(@PathVariable(name = "id") int id) {
         ModelAndView modelAndView = new ModelAndView(url.JOBS_LIST_DETAILS_PAGE);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        JobsList jobsList = jobsListService.find(id);
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findUserByUserName(auth.getName());
+            JobsList jobsList = jobsListService.find(id);
 
-        if (jobsList.getOwner().getId() == user.getId())
-            modelAndView.addObject("jobsList", jobsListService.find(id));
-        else
-            modelAndView.setViewName(url.HOME_PAGE);
+            if (jobsList == null)
+                throw new NotFoundException(url.JOBS_LIST_DETAILS_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
-        return modelAndView;
+            if (jobsList.getOwner().getId() == user.getId())
+                modelAndView.addObject("jobsList", jobsListService.find(id));
+            else {
+                throw new UnauthorizedException(url.JOBS_LIST_DETAILS_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_UNAUTHORIZED);
+            }
+
+            return modelAndView;
+        } catch (UnauthorizedException ex) {
+            modelAndView.setViewName(url.ERROR_UNAUTHORIZED);
+            return modelAndView;
+        } catch (NotFoundException ex) {
+            modelAndView.setViewName(url.ERROR_NOT_FOUND);
+            return modelAndView;
+        }
     }
 
 
