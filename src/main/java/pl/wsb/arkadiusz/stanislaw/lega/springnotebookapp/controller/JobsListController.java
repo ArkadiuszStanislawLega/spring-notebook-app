@@ -14,10 +14,7 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class JobsListController {
@@ -34,23 +31,12 @@ public class JobsListController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
 
-        List<JobsList> sortedList = new ArrayList<>();
-        List<JobsList> reverseSortedList = new ArrayList<>();
-
-        for (JobsList jobList: user.getJobsLists()){
-            sortedList.add(jobList);
-        }
-
-        Collections.sort(sortedList, new JobListsComparatorsByCreateDate());
-
-        for (int i=sortedList.size()-1; i>=0; i--){
-            reverseSortedList.add(sortedList.get(i));
-        }
-
         modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getJobsLists().size() + " list.");
-        modelAndView.addObject("jobsLists", reverseSortedList);
+        modelAndView.addObject("jobsLists", user.getSortedByDateJobsList());
+
         return modelAndView;
     }
+
 
     @RequestMapping(value = url.JOBS_LIST_NEW_PAGE)
     public String create(Model model) {
@@ -138,5 +124,6 @@ public class JobsListController {
 
         return modelAndView;
     }
+
 
 }

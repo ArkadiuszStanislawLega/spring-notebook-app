@@ -5,10 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobListsComparatorsByCreateDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -134,6 +138,27 @@ public class User {
 
     public Set<JobsList> getJobsLists() {
         return this.jobsLists;
+    }
+
+    /***
+     * Sorting JobsList by created date, newest at the beginning of list.
+     * @return List with sorted JobsList by created date.
+     */
+    public List<JobsList> getSortedByDateJobsList(){
+        List<JobsList> sortedList = new ArrayList<>();
+        List<JobsList> reverseSortedList = new ArrayList<>();
+
+        for (JobsList jobList: this.jobsLists){
+            sortedList.add(jobList);
+        }
+
+        Collections.sort(sortedList, new JobListsComparatorsByCreateDate());
+
+        for (int i=sortedList.size()-1; i>=0; i--){
+            reverseSortedList.add(sortedList.get(i));
+        }
+
+        return reverseSortedList;
     }
 }
 
