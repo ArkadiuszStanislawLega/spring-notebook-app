@@ -2,13 +2,12 @@ package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobComparatorByCreateDate;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Setup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="jobs_lists")
@@ -25,12 +24,12 @@ public class JobsList {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = Setup.DATE_TIME_FORMAT)
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "edited")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = Setup.DATE_TIME_FORMAT)
     private Date edited;
 
     @ManyToOne
@@ -108,5 +107,27 @@ public class JobsList {
 
     public String toString(){
         return this.id + " " + this.name + " id_owner: " + this.owner.getId();
+    }
+
+
+    /**
+     * Sorting Jobs by created date, newest at the beginning of list.
+     * @return List with sorted Jobs by created date.
+     */
+    public List<Job> getSortedByDateJobs()
+    {
+        List<Job> jobs = new ArrayList<>();
+        List<Job> reverseSortedJobs = new ArrayList<>();
+
+        for (Job job : this.jobsList) {
+                jobs.add(job);
+        }
+
+        Collections.sort(jobs, new JobComparatorByCreateDate());
+
+        for (int i=jobs.size()-1; i>=0; i--){
+            reverseSortedJobs.add(jobs.get(i));
+        }
+        return reverseSortedJobs;
     }
 }

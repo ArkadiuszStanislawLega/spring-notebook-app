@@ -46,7 +46,7 @@
                         <h5 class="card-title mb-0">Lista zadań</h5>
                     </div>
 
-                    <div class="card-body h-100" th:each="job : ${jobsList.jobsList}">
+                    <div class="card-body" th:each="job : ${jobsList.getSortedByDateJobs}">
                         <div class="media">
                             <div class="media-body">
                                 <a th:href="@{'/job/edit/' + ${job.id}}"><strong th:inline="text">[[${job.title}]]</strong> </a><br>
@@ -56,8 +56,8 @@
                                 <div class="border text-sm text-muted p-2 mt-1" th:text="${job.content}">
                                     content
                                 </div>
-                                <small class="float-right text-navy"
-                                        th:text="${job.edited}"> edited</small><small class="float-right text-navy">Edytowano: </small>
+                                <a th:href="@{'/job/delete/' + ${job.id}}"><small class="text-muted">USUŃ</small></a>
+                                <small class="float-right text-navy" th:text="${job.edited}"> edited</small><small class="float-right text-navy">Edytowano: </small>
                             </div>
                         </div>
                         <hr>

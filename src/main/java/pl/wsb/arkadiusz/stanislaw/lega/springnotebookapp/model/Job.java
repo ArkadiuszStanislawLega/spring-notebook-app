@@ -1,14 +1,11 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators.JobComparatorByCreateDate;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Setup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name="jobs")
@@ -28,12 +25,12 @@ public class Job {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = Setup.DATE_TIME_FORMAT)
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "edited")
-    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
+    @DateTimeFormat(pattern = Setup.DATE_TIME_FORMAT)
     private Date edited;
 
     @ManyToOne(targetEntity = JobsList.class)

@@ -7,7 +7,7 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.Role;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.RoleRepository;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.UserRepository;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Roles;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Setup;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -40,7 +40,7 @@ public class UserService {
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(true);
-        Role userRole = roleRepository.findByRole(Roles.ROLE_USER);
+        Role userRole = roleRepository.findByRole(Setup.ROLE_USER);
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return userRepository.save(user);
 

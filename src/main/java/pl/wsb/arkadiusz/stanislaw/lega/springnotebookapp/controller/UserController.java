@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.UserService;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Messages;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.url;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Urls;
 
 import javax.validation.Valid;
 
@@ -23,14 +23,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = url.LOGIN_PAGE)
+    @GetMapping(value = Urls.LOGIN_PAGE)
     public ModelAndView login() {
-        return new ModelAndView(url.LOGIN_PAGE);
+        return new ModelAndView(Urls.LOGIN_PAGE);
     }
 
-    @GetMapping(value = url.USER_PROFILE_PAGE)
+    @GetMapping(value = Urls.USER_PROFILE_PAGE)
     public ModelAndView profile() {
-        ModelAndView modelAndView = new ModelAndView(url.USER_PROFILE_PAGE);
+        ModelAndView modelAndView = new ModelAndView(Urls.USER_PROFILE_PAGE);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
@@ -42,16 +42,16 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = url.REGISTRATION_PAGE, method = RequestMethod.GET)
+    @RequestMapping(value = Urls.REGISTRATION_PAGE, method = RequestMethod.GET)
     public ModelAndView registration() {
-        ModelAndView modelAndView = new ModelAndView(url.REGISTRATION_PAGE);
+        ModelAndView modelAndView = new ModelAndView(Urls.REGISTRATION_PAGE);
         modelAndView.addObject("user", new User());
         return modelAndView;
     }
 
-    @PostMapping(value = url.REGISTRATION_PAGE)
+    @PostMapping(value = Urls.REGISTRATION_PAGE)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView(url.REGISTRATION_PAGE);
+        ModelAndView modelAndView = new ModelAndView(Urls.REGISTRATION_PAGE);
         User userExists = userService.findUserByUserName(user.getUserName());
         if (userExists != null) {
             bindingResult

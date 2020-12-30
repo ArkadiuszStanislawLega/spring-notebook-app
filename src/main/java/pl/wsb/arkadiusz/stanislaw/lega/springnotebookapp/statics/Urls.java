@@ -1,6 +1,6 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics;
 
-public class url {
+public class Urls {
     public static final String CHILDREN = "/**";
 
     public static final String RESOURCES_FOLDER = "/resources";
