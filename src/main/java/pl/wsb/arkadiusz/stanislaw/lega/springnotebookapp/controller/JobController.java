@@ -115,7 +115,7 @@ public class JobController {
         }
     }
 
-    @GetMapping(value = Urls.JOB_SAVE_UPDATE_PAGE)
+    @PutMapping(value = Urls.JOB_SAVE_UPDATE_PAGE)
     public String saveUpdate(@ModelAttribute("job") Job job) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User userLoggedIn = ownerService.findUserByUserName(auth.getName());
