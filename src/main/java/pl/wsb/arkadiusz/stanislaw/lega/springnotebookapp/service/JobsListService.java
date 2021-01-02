@@ -7,7 +7,6 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.JobsListRepo
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class JobsListService {
@@ -36,6 +35,8 @@ public class JobsListService {
     }
 
     public JobsList find(Integer id) {return jobsListRepository.findById(id).orElse(null);}
+
+    public Iterable<JobsList> listAll() { return jobsListRepository.findAll();}
 
 
 }
