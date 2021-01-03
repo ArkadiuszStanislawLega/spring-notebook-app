@@ -29,7 +29,8 @@
                             <div class="col-sm-9">
                                 <span >Typ użytkownika:</span>
                                     <tr th:each="role : ${roles}">
-                                        <td th:text="${role.role}"></td>
+                                        <td th:text="${role.role == 'ADMIN'} ? 'Administrator' : 'Użytkownik' "></td>
+<!--                                        <td th:text="${role.role}"></td>-->
                                     </tr>
                             </div>
                         </div>
