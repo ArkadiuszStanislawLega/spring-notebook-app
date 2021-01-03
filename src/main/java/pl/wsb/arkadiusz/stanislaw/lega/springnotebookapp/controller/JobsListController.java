@@ -62,7 +62,7 @@ public class JobsListController {
         return "redirect:" + Urls.JOBS_LIST_HOME_PAGE;
     }
 
-    @RequestMapping(value = Urls.JOBS_LIST_SAVE_UPDATE_PAGE, method = {RequestMethod.GET, RequestMethod.PUT})
+    @PostMapping(value = Urls.JOBS_LIST_SAVE_UPDATE_PAGE)
     public String saveUpdate(@ModelAttribute("jobsList") JobsList jobsList) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
