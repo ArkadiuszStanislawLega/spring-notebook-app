@@ -37,6 +37,8 @@ public class Urls {
     private static final String SAVE_UPDATE = "/saveUpdate";
     private static final String DELETE=  "/delete";
 
+    public static final String HOME_HOME_PAGE = HOME;
+
     public static final String JOBS_LIST_PAGE = "/jobsList";
     public static final String JOBS_LIST_PAGE_ACCESS_ALL = JOBS_LIST_PAGE + CHILDREN;
     public static final String JOBS_LIST_HOME_PAGE = JOBS_LIST_PAGE + HOME;

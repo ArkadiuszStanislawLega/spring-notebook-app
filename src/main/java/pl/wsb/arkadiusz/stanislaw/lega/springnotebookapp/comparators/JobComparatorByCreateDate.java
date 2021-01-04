@@ -1,7 +1,6 @@
 package pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.comparators;
 
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.Job;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 
 import java.util.Comparator;
 
