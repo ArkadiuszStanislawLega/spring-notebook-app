@@ -4,39 +4,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.JobsListRepository;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.UserRepository;
 
 import java.util.List;
 
 @Service
 public class JobsListService {
 
-    private JobsListRepository jobsListRepository;
-    private UserRepository userRepository;
+    private final JobsListRepository JOBS_LIST_REPOSITORY;
 
 
     @Autowired
-    public JobsListService(JobsListRepository jobsListRepository, UserRepository userRepository) {
-        this.jobsListRepository = jobsListRepository;
-        this.userRepository = userRepository;
+    public JobsListService(JobsListRepository jobsListRepository) {
+        this.JOBS_LIST_REPOSITORY = jobsListRepository;
     }
 
 
     public List<JobsList> findListsByUserName(String owner) {
-        return jobsListRepository.findListsByOwner(owner);
+        return JOBS_LIST_REPOSITORY.findListsByOwner(owner);
     }
 
     public JobsList saveJobsList(JobsList jobsList){
-        return jobsListRepository.save(jobsList);
+        return JOBS_LIST_REPOSITORY.save(jobsList);
     }
 
     public void removeJobsList(JobsList jobsList){
-        jobsListRepository.delete(jobsList);
+        JOBS_LIST_REPOSITORY.delete(jobsList);
     }
 
-    public JobsList find(Integer id) {return jobsListRepository.findById(id).orElse(null);}
+    public JobsList find(Integer id) {return JOBS_LIST_REPOSITORY.findById(id).orElse(null);}
 
-    public Iterable<JobsList> listAll() { return jobsListRepository.findAll();}
+    public Iterable<JobsList> listAll() { return JOBS_LIST_REPOSITORY.findAll();}
 
 
 }
