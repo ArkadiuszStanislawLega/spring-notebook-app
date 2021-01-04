@@ -54,7 +54,6 @@ public class Urls {
     public static final String JOB_HOME_PAGE = JOB_PAGE + HOME;
     public static final String JOB_NEW_PAGE = JOB_PAGE + NEW;
     public static final String JOB_SAVE_PAGE = JOB_PAGE + SAVE;
-    public static final String JOB_DETAILS_PAGE = JOB_PAGE + DETAILS;
     public static final String JOB_EDIT_PAGE = JOB_PAGE + EDIT;
     public static final String JOB_SAVE_UPDATE_PAGE = JOB_PAGE + SAVE_UPDATE;
     public static final String JOB_DELETE_PAGE = JOB_PAGE + DELETE;
