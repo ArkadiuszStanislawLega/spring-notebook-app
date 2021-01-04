@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Controller
 public class JobController {
-    private Map<Integer, JobsList> parents = new HashMap<>();
+    private static final Map<Integer, JobsList> PARENTS = new HashMap<>();
 
     @Autowired
     private JobService jobService;
@@ -39,7 +39,7 @@ public class JobController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView(Urls.JOB_HOME_PAGE);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = ownerService.findUserByUserName(auth.getName());
+        User user = this.ownerService.findUserByUserName(auth.getName());
 
         modelAndView.addObject("information", "Użytkownik " + user.getUserName() + " posiada " + user.getSortedByDateJobs().size() + " zadań.");
         modelAndView.addObject("jobsList", user.getSortedByDateJobs());
@@ -51,8 +51,8 @@ public class JobController {
     @RequestMapping(value = Urls.JOB_NEW_PAGE + "/{id}")
     public String create(@PathVariable(name = "id") Integer parentId, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User owner = ownerService.findUserByUserName(auth.getName());
-        this.parents.put(owner.getId(), parentService.find(parentId));
+        User owner = this.ownerService.findUserByUserName(auth.getName());
+        PARENTS.put(owner.getId(), this.parentService.find(parentId));
 
         Job job = new Job();
         model.addAttribute("job", job);
@@ -69,19 +69,19 @@ public class JobController {
     @PostMapping(value = Urls.JOB_SAVE_PAGE)
     public String save(@ModelAttribute("job") Job job) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User userLoggedIn = ownerService.findUserByUserName(auth.getName());
+        User userLoggedIn = this.ownerService.findUserByUserName(auth.getName());
 
-        job.setParent(this.parents.get(userLoggedIn.getId()));
-        job.setCreated(new Date());
-        job.setEdited(new Date());
-        jobService.saveJob(job);
+        Date createdAndEditDate = new Date();
+        job.setParent(PARENTS.get(userLoggedIn.getId()));
+        job.setCreated(createdAndEditDate);
+        job.setEdited(createdAndEditDate);
+        this.jobService.saveJob(job);
 
-        //Update parent edited date.
-        JobsList dbJobList = parentService.find(job.getParent().getId());
-        dbJobList.setEdited(new Date());
-        parentService.saveJobsList(dbJobList);
+        JobsList dbJobList = this.parentService.find(job.getParent().getId());
+        dbJobList.setEdited(createdAndEditDate);
+        this.parentService.saveJobsList(dbJobList);
 
-        this.parents.remove(userLoggedIn.getId());
+        PARENTS.remove(userLoggedIn.getId());
 
         return "redirect:" + Urls.JOBS_LIST_DETAILS_PAGE + "/" + job.getParent().getId();
     }
@@ -91,15 +91,15 @@ public class JobController {
         ModelAndView modelAndView = new ModelAndView(Urls.JOB_EDIT_PAGE);
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User owner = ownerService.findUserByUserName(auth.getName());
+            User owner = this.ownerService.findUserByUserName(auth.getName());
 
-            Job job = jobService.find(id);
+            Job job = this.jobService.find(id);
 
             if (job == null)
                 throw new NotFoundException(Urls.JOB_EDIT_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
-            if (owner.getId() == job.getParent().getOwner().getId()) {
-                this.parents.put(owner.getId(), job.getParent());
+            if (owner.getId().equals(job.getParent().getOwner().getId())) {
+                PARENTS.put(owner.getId(), job.getParent());
                 modelAndView.addObject("job", job);
                 return modelAndView;
             } else {
@@ -118,15 +118,15 @@ public class JobController {
     @PostMapping(value = Urls.JOB_SAVE_UPDATE_PAGE)
     public String saveUpdate(@ModelAttribute("job") Job job) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User userLoggedIn = ownerService.findUserByUserName(auth.getName());
+        User userLoggedIn = this.ownerService.findUserByUserName(auth.getName());
 
         Date editedDate = new Date();
-        job.setParent(this.parents.get(userLoggedIn.getId()));
+        job.setParent(PARENTS.get(userLoggedIn.getId()));
         job.getParent().setEdited(editedDate);
         job.setEdited(editedDate);
-        jobService.saveJob(job);
+        this.jobService.saveJob(job);
 
-        this.parents.remove(userLoggedIn.getId());
+        PARENTS.remove(userLoggedIn.getId());
 
         return "redirect:" + Urls.JOBS_LIST_DETAILS_PAGE + "/" + job.getParent().getId();
     }
@@ -136,14 +136,14 @@ public class JobController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = ownerService.findUserByUserName(auth.getName());
-            Job job = jobService.find(id);
+            Job job = this.jobService.find(id);
 
             if (job == null)
                 throw new NotFoundException(Urls.JOB_DELETE_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
-            if (user.getId() == job.getParent().getOwner().getId()) {
+            if (user.getId().equals(job.getParent().getOwner().getId())) {
                 job.getParent().setEdited(new Date());
-                jobService.removeJob(job);
+                this.jobService.removeJob(job);
             } else {
                 throw new UnauthorizedException(Urls.JOB_DELETE_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_UNAUTHORIZED);
             }
