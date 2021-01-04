@@ -92,9 +92,22 @@ public class JobsList {
         return jobsList;
     }
 
+    public void setJobsList(Set<Job> jobsList) {
+        this.jobsList = jobsList;
+    }
+
     public JobsList(){
         this.owner = new User();
         this.jobsList = new HashSet<>();
+    }
+
+    public JobsList(Integer id, @NotEmpty(message = "*Please provide a jobs list name") String name, Date created, Date edited, User owner, Set<Job> jobsList) {
+        this.id = id;
+        this.name = name;
+        this.created = created;
+        this.edited = edited;
+        this.owner = owner;
+        this.jobsList = jobsList;
     }
 
     public JobsList(Integer id, @NotEmpty(message = "*Please provide a jobs list name") String name, Date created, Date edited, User owner) {

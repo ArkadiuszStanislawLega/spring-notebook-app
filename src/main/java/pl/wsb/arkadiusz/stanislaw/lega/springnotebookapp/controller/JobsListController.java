@@ -69,15 +69,16 @@ public class JobsListController {
             User user = userService.findUserByUserName(auth.getName());
             User dbUser = jobsListService.find(jobsList.getId()).getOwner();
 
-            if (jobsList == null)
+            if (jobsList.equals(null))
                 throw new NotFoundException(Urls.JOBS_LIST_SAVE_UPDATE_PAGE + " " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
-            if (user.getId() == dbUser.getId()) {
+            if (user.getId().equals(dbUser.getId())) {
                 for (JobsList userJobsList : user.getJobsLists()) {
-                    if (userJobsList.getId() == jobsList.getId()) {
+                    if (userJobsList.getId().equals(jobsList.getId())) {
                         jobsList.setCreated(userJobsList.getCreated());
                         jobsList.setOwner(user);
                         jobsList.setEdited(new Date());
+                        jobsList.setJobsList(userJobsList.getJobsList());
                         jobsListService.saveJobsList(jobsList);
                         break;
                     }
@@ -105,7 +106,7 @@ public class JobsListController {
             if (jobsList == null)
                 throw new NotFoundException(Urls.JOBS_LIST_EDIT_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
-            if (jobsList.getOwner().getId() == user.getId())
+            if (jobsList.getOwner().getId().equals(user.getId()))
                 modelAndView.addObject("jobsList", jobsListService.find(id));
             else {
                 throw new UnauthorizedException(Urls.JOBS_LIST_EDIT_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_UNAUTHORIZED);
@@ -130,7 +131,7 @@ public class JobsListController {
             if (jobsList == null)
                 throw new NotFoundException(Urls.JOBS_LIST_DELETE_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
-            if (jobsList.getOwner().getId() == user.getId()) {
+            if (jobsList.getOwner().getId().equals(user.getId())) {
                 jobsListService.removeJobsList(jobsList);
                 return "redirect:" + Urls.JOBS_LIST_HOME_PAGE;
             } else {
@@ -154,7 +155,7 @@ public class JobsListController {
             if (jobsList == null)
                 throw new NotFoundException(Urls.JOBS_LIST_DETAILS_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_NOT_FOUND);
 
-            if (jobsList.getOwner().getId() == user.getId())
+            if (jobsList.getOwner().getId().equals(user.getId()))
                 modelAndView.addObject("jobsList", jobsListService.find(id));
             else {
                 throw new UnauthorizedException(Urls.JOBS_LIST_DETAILS_PAGE + "/" + id + "-> " + Messages.ERROR_MESSAGE_UNAUTHORIZED);
