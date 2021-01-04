@@ -10,6 +10,7 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.Role;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.User;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.JobsListRepository;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.service.JobsListService;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Setup;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class JobsListServiceTest {
         User user;
         JobsList jobsList1, jobsList2, jobsList3;
         Set<Role> userRole = new HashSet<>();
-        userRole.add(new Role(1, "ADMIN"));
+        userRole.add(new Role(1, Setup.ROLE_ADMIN));
 
         Set<JobsList> userJobsList = new HashSet<>();
 
@@ -83,7 +84,7 @@ public class JobsListServiceTest {
     void find_whenFound_thenReturnResult() {
         User user;
         Set<Role> userRole = new HashSet<>();
-        userRole.add(new Role(1, "ADMIN"));
+        userRole.add(new Role(1, Setup.ROLE_ADMIN));
 
         Set<JobsList> userJobsList = new HashSet<>();
 

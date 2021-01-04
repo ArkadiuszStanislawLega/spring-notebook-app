@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.JobsList;
+import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Urls;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +23,7 @@ public class JobsListControllerTest {
 
     @Test
     void notLoginUserAndRedirect() throws Exception {
-        mockMvc.perform(get("/jobsList/home"))
+        mockMvc.perform(get(Urls.JOBS_LIST_HOME_PAGE))
                 .andExpect(status().isFound())
                 .andDo(MockMvcResultHandlers.print());
     }
