@@ -4,37 +4,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.model.Job;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.JobRepository;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.JobsListRepository;
-import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.UserRepository;
 
 import java.util.List;
 
 @Service
 public class JobService {
-    private JobRepository jobRepository;
-    private JobsListRepository parentRepository;
-    private UserRepository ownerRepository;
+    private final JobRepository JOB_REPOSITORY;
 
     @Autowired
-    public JobService(JobRepository jobRepository, JobsListRepository parentRepository, UserRepository ownerRepository) {
-        this.jobRepository = jobRepository;
-        this.parentRepository = parentRepository;
-        this.ownerRepository = ownerRepository;
+    public JobService(JobRepository jobRepository) {
+        JOB_REPOSITORY = jobRepository;
     }
 
     public List<Job> findJobsByParentId(Integer parentId) {
-        return jobRepository.findJobsByParentId(parentId);
+        return JOB_REPOSITORY.findJobsByParentId(parentId);
     }
 
     public Job saveJob(Job job) {
-        return jobRepository.save(job);
+        return JOB_REPOSITORY.save(job);
     }
 
     public void removeJob(Job job) {
-        jobRepository.delete(job);
+        JOB_REPOSITORY.delete(job);
     }
 
     public Job find(Integer id) {
-        return jobRepository.findById(id).orElse(null);
+        return JOB_REPOSITORY.findById(id).orElse(null);
     }
 }
