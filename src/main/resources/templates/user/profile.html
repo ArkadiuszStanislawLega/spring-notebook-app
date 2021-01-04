@@ -4,38 +4,37 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       lang="pl">
-    <head>
-        <meta charset="utf-8"/>
-        <title>Profil | Notebook</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div align="center">
-                <div class="col-md-6 col-md-offset-3">
-                        <div class="form-group">
-                            <div class="col-sm-9">
-                                <span >Nazwa użytkownika:</span>
-                                <span th:utext="${name}"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-9">
-                                <span >Adres e-mail:</span>
-                                <span th:utext="${email}"></span>
-                            </div>
-                        </div>
+<head>
+    <meta charset="utf-8"/>
+    <title>Profil | Notebook</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div align="center">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <span>Nazwa użytkownika:</span>
+                    <span th:utext="${name}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <span>Adres e-mail:</span>
+                    <span th:utext="${email}"></span>
+                </div>
+            </div>
 
-                        <div class="form-group">
-                            <div class="col-sm-9">
-                                <span >Typ użytkownika:</span>
-                                    <tr th:each="role : ${roles}">
-                                        <td th:text="${role.role == 'ADMIN'} ? 'Administrator' : 'Użytkownik' "></td>
-<!--                                        <td th:text="${role.role}"></td>-->
-                                    </tr>
-                            </div>
-                        </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <span>Typ użytkownika:</span>
+                    <tr th:each="role : ${roles}">
+                        <td th:text="${role.role == 'ADMIN'} ? 'Administrator' : 'Użytkownik' "></td>
+                    </tr>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html>
