@@ -172,12 +172,10 @@ public class User {
         List<Job> reverseSortedJobs = new ArrayList<>();
 
         for (JobsList parent : this.getJobsLists()) {
-            for (Job job : parent.getJobsList()) {
-                jobs.add(job);
-            }
+            jobs.addAll(parent.getJobsList());
         }
 
-        Collections.sort(jobs, new JobComparatorByCreateDate());
+        jobs.sort(new JobComparatorByCreateDate());
 
         for (int i=jobs.size()-1; i>=0; i--){
             reverseSortedJobs.add(jobs.get(i));
