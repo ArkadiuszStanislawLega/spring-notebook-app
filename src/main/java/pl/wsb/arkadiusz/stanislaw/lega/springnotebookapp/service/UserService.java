@@ -9,41 +9,40 @@ import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.RoleReposito
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.repository.UserRepository;
 import pl.wsb.arkadiusz.stanislaw.lega.springnotebookapp.statics.Setup;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository USER_REPOSITORY;
+    private final RoleRepository ROLE_REPOSITORY;
+    private final BCryptPasswordEncoder B_CRYPT_PASSWORD_ENCODER;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        RoleRepository roleRepository,
                        BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.USER_REPOSITORY = userRepository;
+        this.ROLE_REPOSITORY = roleRepository;
+        this.B_CRYPT_PASSWORD_ENCODER = bCryptPasswordEncoder;
     }
 
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return this.USER_REPOSITORY.findByEmail(email);
     }
 
     public User findUserByUserName(String userName) {
-        return userRepository.findByUserName(userName);
+        return this.USER_REPOSITORY.findByUserName(userName);
     }
 
 
     public User saveUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(this.B_CRYPT_PASSWORD_ENCODER.encode(user.getPassword()));
         user.setActive(true);
-        Role userRole = roleRepository.findByRole(Setup.ROLE_USER);
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        return userRepository.save(user);
-
+        Role userRole = this.ROLE_REPOSITORY.findByRole(Setup.ROLE_USER);
+        user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
+        return this.USER_REPOSITORY.save(user);
     }
 }
 

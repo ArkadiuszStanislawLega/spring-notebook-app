@@ -20,20 +20,20 @@ public class JobsListService {
 
 
     public List<JobsList> findListsByUserName(String owner) {
-        return JOBS_LIST_REPOSITORY.findListsByOwner(owner);
+        return this.JOBS_LIST_REPOSITORY.findListsByOwner(owner);
     }
 
     public JobsList saveJobsList(JobsList jobsList){
-        return JOBS_LIST_REPOSITORY.save(jobsList);
+        return this.JOBS_LIST_REPOSITORY.save(jobsList);
     }
 
     public void removeJobsList(JobsList jobsList){
-        JOBS_LIST_REPOSITORY.delete(jobsList);
+        this.JOBS_LIST_REPOSITORY.delete(jobsList);
     }
 
-    public JobsList find(Integer id) {return JOBS_LIST_REPOSITORY.findById(id).orElse(null);}
+    public JobsList find(Integer id) {return this.JOBS_LIST_REPOSITORY.findById(id).orElse(null);}
 
-    public Iterable<JobsList> listAll() { return JOBS_LIST_REPOSITORY.findAll();}
+    public Iterable<JobsList> listAll() { return this.JOBS_LIST_REPOSITORY.findAll();}
 
 
 }

@@ -13,22 +13,22 @@ public class JobService {
 
     @Autowired
     public JobService(JobRepository jobRepository) {
-        JOB_REPOSITORY = jobRepository;
+        this.JOB_REPOSITORY = jobRepository;
     }
 
     public List<Job> findJobsByParentId(Integer parentId) {
-        return JOB_REPOSITORY.findJobsByParentId(parentId);
+        return this.JOB_REPOSITORY.findJobsByParentId(parentId);
     }
 
     public Job saveJob(Job job) {
-        return JOB_REPOSITORY.save(job);
+        return this.JOB_REPOSITORY.save(job);
     }
 
     public void removeJob(Job job) {
-        JOB_REPOSITORY.delete(job);
+        this.JOB_REPOSITORY.delete(job);
     }
 
     public Job find(Integer id) {
-        return JOB_REPOSITORY.findById(id).orElse(null);
+        return this.JOB_REPOSITORY.findById(id).orElse(null);
     }
 }
